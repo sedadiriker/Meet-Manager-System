@@ -10,11 +10,10 @@ using api.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddControllers();
 
-// Register Swagger generator
 builder.Services.AddEndpointsApiExplorer();
+
 builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new OpenApiInfo
@@ -29,7 +28,6 @@ builder.Services.AddSwaggerGen(options =>
         return controller != "Home";
     });
 
-    // Add JWT authentication to Swagger
     options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Name = "Authorization",
@@ -56,7 +54,6 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
-// CORS politikası ekleme
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll",
@@ -73,7 +70,6 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 
-// JWT Authentication yapılandırması
 var jwtSecretKey = "YourStrong@JwtSecretKey1234567890"; 
 var key = Encoding.ASCII.GetBytes(jwtSecretKey);
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -91,14 +87,13 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -125,60 +120,6 @@ app.UseCors("AllowAll");
 app.UseAuthentication();
 app.UseAuthorization();
 
-// Token doğrulama ve yönlendirme
-// app.Use(async (context, next) =>
-// {
-//     var path = context.Request.Path.Value;
-
-//     // Log path
-//     System.Console.WriteLine($"Requested Path: {path}");
-
-//     // Giriş sayfasına yönlendirme kontrolü
-//     if (path == "/anasayfa" || path == "/toplantı_listesi" || path == "/toplantı_ekle")
-//     {
-//         var token = context.Request.Headers["Authorization"].ToString().Replace("Bearer ", "").Trim();
-
-//         // Token'u konsola yazdır
-//         System.Console.WriteLine($"Token: '{token}'");
-
-//         if (string.IsNullOrEmpty(token))
-//         {
-//             context.Response.Redirect("/");
-//             return;
-//         }
-
-//         try
-//         {
-//             var tokenHandler = new JwtSecurityTokenHandler();
-//             var validationParameters = new TokenValidationParameters
-//             {
-//                 ValidateIssuer = true,
-//                 ValidateAudience = true,
-//                 ValidateIssuerSigningKey = true,
-//                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("YourStrong@JwtSecretKey1234567890")),
-//                 ValidateLifetime = true,
-//                 ValidIssuer = "http://localhost:5229",
-//                 ValidAudience = "http://localhost:5229"
-//             };
-
-//             tokenHandler.ValidateToken(token, validationParameters, out var validatedToken);
-
-//             if (validatedToken == null)
-//             {
-//                 context.Response.Redirect("/");
-//                 return;
-//             }
-//         }
-//         catch (Exception ex)
-//         {
-//             System.Console.WriteLine($"Token doğrulama hatası: {ex.Message}");
-//             context.Response.Redirect("/");
-//             return;
-//         }
-//     }
-
-//     await next();
-// });
 
 app.MapControllers();
 app.MapControllerRoute(
