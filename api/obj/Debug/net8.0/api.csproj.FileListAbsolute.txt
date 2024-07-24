@@ -442,3 +442,4 @@
 /Users/sedadiriker/Desktop/MeetManagerSystem/api/obj/Debug/net8.0/api.pdb
 /Users/sedadiriker/Desktop/MeetManagerSystem/api/obj/Debug/net8.0/api.genruntimeconfig.cache
 /Users/sedadiriker/Desktop/MeetManagerSystem/api/obj/Debug/net8.0/ref/api.dll
+/Users/sedadiriker/Desktop/MeetManagerSystem/api/bin/Debug/net8.0/api.staticwebassets.runtime.json
