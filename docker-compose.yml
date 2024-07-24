@@ -1,0 +1,36 @@
+# version: '3.8'
+
+services:
+  api:
+    build:
+      context: ./api
+    ports:
+      - "5064:80"
+    networks:
+      - app-network
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=db;Database=MeetManager;User Id=sa;Password=Password1;
+
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "5001:80"
+    networks:
+      - app-network
+
+  database:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    platform: linux/amd64
+    environment:
+      SA_PASSWORD: "Password1"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1434:1433"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
