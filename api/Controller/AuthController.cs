@@ -50,31 +50,46 @@ namespace api.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)
+public async Task<IActionResult> Register([FromForm] RegisterDto registerDto, [FromForm] IFormFile profilePicture)
+{
+    if (await _userService.UserExistsAsync(registerDto.Email))
+    {
+        return BadRequest("Bu e-posta adresi zaten kayıtlı.");
+    }
+
+    var salt = GenerateSalt();
+    var hashedPassword = HashPassword(registerDto.Password, salt);
+
+    // Profil fotoğrafını işleme
+    string profilePicturePath = null;
+    if (profilePicture != null && profilePicture.Length > 0)
+    {
+        var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
+        Directory.CreateDirectory(uploadsFolder); // Ensure directory exists
+
+        profilePicturePath = Path.Combine(uploadsFolder, profilePicture.FileName);
+        using (var stream = new FileStream(profilePicturePath, FileMode.Create))
         {
-            if (await _userService.UserExistsAsync(registerDto.Email))
-            {
-                return BadRequest("Bu e-posta adresi zaten kayıtlı.");
-            }
-
-            var salt = GenerateSalt();
-            var hashedPassword = HashPassword(registerDto.Password, salt);
-
-            var newUser = new User
-            {
-                FirstName = registerDto.FirstName,
-                LastName = registerDto.LastName,
-                Email = registerDto.Email,
-                Phone = registerDto.Phone,
-                PasswordHash = hashedPassword,
-                ProfilePicture = registerDto.ProfilePicture
-            };
-
-            await _userService.CreateUserAsync(newUser);
-            await _emailService.SendWelcomeEmailAsync(newUser.Email, newUser.FirstName);
-
-            return Ok("Kayıt işlemi başarılı.");
+            await profilePicture.CopyToAsync(stream);
         }
+    }
+
+    var newUser = new User
+    {
+        FirstName = registerDto.FirstName,
+        LastName = registerDto.LastName,
+        Email = registerDto.Email,
+        Phone = registerDto.Phone,
+        PasswordHash = hashedPassword,
+        ProfilePicture = profilePicturePath // Save the path or URL to the profile picture
+    };
+
+    await _userService.CreateUserAsync(newUser);
+    await _emailService.SendWelcomeEmailAsync(newUser.Email, newUser.FirstName);
+
+    return Ok("Kayıt işlemi başarılı.");
+}
+
 
         private string GenerateSalt()
         {
