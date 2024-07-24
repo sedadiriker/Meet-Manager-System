@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "BnxfmQ0HvH/txyfVjVkCbDyNAFUwp5isAwN7c8MZGUg=",
+  "Hash": "eEP3RD2pY1MQavAqnqI89X5jmdQtl+NGZzg/Tp5InJw=",
   "Source": "frontend",
   "BasePath": "_content/frontend",
   "Mode": "Default",
@@ -2257,6 +2257,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/uploads/images/login.jpg"
+    },
+    {
+      "Identity": "/Users/sedadiriker/Desktop/MeetManagerSystem/frontend/wwwroot/uploads/images/register.jpg",
+      "SourceId": "frontend",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/sedadiriker/Desktop/MeetManagerSystem/frontend/wwwroot/",
+      "BasePath": "_content/frontend",
+      "RelativePath": "uploads/images/register.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/uploads/images/register.jpg"
     },
     {
       "Identity": "/Users/sedadiriker/Desktop/MeetManagerSystem/frontend/wwwroot/uploads/istockphoto-1055387324-612x612.jpg",

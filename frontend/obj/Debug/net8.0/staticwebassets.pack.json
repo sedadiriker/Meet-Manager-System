@@ -469,6 +469,10 @@
       "PackagePath": "staticwebassets/uploads/images/login.jpg"
     },
     {
+      "Id": "/Users/sedadiriker/Desktop/MeetManagerSystem/frontend/wwwroot/uploads/images/register.jpg",
+      "PackagePath": "staticwebassets/uploads/images/register.jpg"
+    },
+    {
       "Id": "/Users/sedadiriker/Desktop/MeetManagerSystem/frontend/wwwroot/uploads/istockphoto-1055387324-612x612.jpg",
       "PackagePath": "staticwebassets/uploads/istockphoto-1055387324-612x612.jpg"
     },
