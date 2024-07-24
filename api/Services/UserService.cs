@@ -1,56 +1,64 @@
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
 using api.Interfaces;
 using api.Models;
 using api.Data;
+using System.Security.Cryptography;
+using Microsoft.AspNetCore.Cryptography.KeyDerivation;
+using System;
 
 namespace api.Services
 {
     public class UserService : IUserService
     {
         private readonly ApplicationDbContext _context;
-        private readonly IPasswordHasher<User> _passwordHasher;
 
-        public UserService(ApplicationDbContext context, IPasswordHasher<User> passwordHasher)
+        public UserService(ApplicationDbContext context)
         {
             _context = context;
-            _passwordHasher = passwordHasher;
         }
 
         public async Task<User> AuthenticateAsync(string email, string password)
         {
             var user = await _context.Users
                 .FirstOrDefaultAsync(u => u.Email == email);
-
+            
             if (user == null)
             {
-                return null; // Kullanıcı bulunamadı
+                return null;
             }
 
             // Şifre doğrulama
-            var result = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, password);
+            var hashedPassword = HashPassword(password, user.PasswordHash.Split('.')[0]);
+            if (user.PasswordHash != hashedPassword)
+            {
+                return null;
+            }
 
-            return result == PasswordVerificationResult.Success ? user : null;
+            return user;
         }
 
-        // Kayıt olma metodu (örnek)
-        public async Task<bool> RegisterAsync(string firstName, string lastName, string email, string phone, string password, string? profilePicture)
+        public async Task<bool> UserExistsAsync(string email)
         {
-            var user = new User
-            {
-                FirstName = firstName,
-                LastName = lastName,
-                Email = email,
-                Phone = phone,
-                ProfilePicture = profilePicture,
-                PasswordHash = _passwordHasher.HashPassword(null, password) // Şifreyi hashleyin
-            };
+            return await _context.Users.AnyAsync(u => u.Email == email);
+        }
 
+        public async Task CreateUserAsync(User user)
+        {
             _context.Users.Add(user);
-            var result = await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
+        }
 
-            return result > 0; // Kayıt başarılı ise true döner
+        private string HashPassword(string password, string salt)
+        {
+            string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+                password: password,
+                salt: Convert.FromBase64String(salt),
+                prf: KeyDerivationPrf.HMACSHA256,
+                iterationCount: 10000,
+                numBytesRequested: 256 / 8));
+
+            return $"{salt}.{hashed}";
         }
     }
 }
