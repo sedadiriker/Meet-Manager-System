@@ -6,7 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using api.Interfaces;
 using api.Models;
 
-namespace Meet_Manager.Services
+namespace api.Services
 {
     public class TokenService : ITokenService
     {
