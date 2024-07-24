@@ -4,9 +4,11 @@ using Microsoft.OpenApi.Models;
 using System.Text;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Identity;
 using api.Data;
 using api.Services;
 using api.Interfaces;
+using api.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -68,7 +70,10 @@ builder.Services.AddCors(options =>
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>();
 
 var jwtSecretKey = "YourStrong@JwtSecretKey1234567890"; 
 var key = Encoding.ASCII.GetBytes(jwtSecretKey);
