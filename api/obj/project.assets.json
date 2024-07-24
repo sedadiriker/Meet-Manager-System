@@ -465,11 +465,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/sedadiriker/Desktop/Meet Manager System/api/api.csproj",
+      "projectUniqueName": "/Users/sedadiriker/Desktop/MeetManagerSystem/api/api.csproj",
       "projectName": "api",
-      "projectPath": "/Users/sedadiriker/Desktop/Meet Manager System/api/api.csproj",
+      "projectPath": "/Users/sedadiriker/Desktop/MeetManagerSystem/api/api.csproj",
       "packagesPath": "/Users/sedadiriker/.nuget/packages/",
-      "outputPath": "/Users/sedadiriker/Desktop/Meet Manager System/api/obj/",
+      "outputPath": "/Users/sedadiriker/Desktop/MeetManagerSystem/api/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/sedadiriker/.nuget/NuGet/NuGet.Config"

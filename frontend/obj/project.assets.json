@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/sedadiriker/Desktop/Meet Manager System/frontend/frontend.csproj",
+      "projectUniqueName": "/Users/sedadiriker/Desktop/MeetManagerSystem/frontend/frontend.csproj",
       "projectName": "frontend",
-      "projectPath": "/Users/sedadiriker/Desktop/Meet Manager System/frontend/frontend.csproj",
+      "projectPath": "/Users/sedadiriker/Desktop/MeetManagerSystem/frontend/frontend.csproj",
       "packagesPath": "/Users/sedadiriker/.nuget/packages/",
-      "outputPath": "/Users/sedadiriker/Desktop/Meet Manager System/frontend/obj/",
+      "outputPath": "/Users/sedadiriker/Desktop/MeetManagerSystem/frontend/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/sedadiriker/.nuget/NuGet/NuGet.Config"
