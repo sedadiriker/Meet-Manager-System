@@ -22,12 +22,72 @@ build_property._RazorSourceGeneratorDebug =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9JbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/sedadiriker/Desktop/MeetManagerSystem/frontend/Views/Home/Privacy.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9Qcml2YWN5LmNzaHRtbA==
+[/Users/sedadiriker/Desktop/MeetManagerSystem/frontend/Views/Home/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9Mb2dpbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/sedadiriker/Desktop/MeetManagerSystem/frontend/Views/Home/Profil.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9Qcm9maWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/sedadiriker/Desktop/MeetManagerSystem/frontend/Views/Home/Register.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9SZWdpc3Rlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/sedadiriker/Desktop/MeetManagerSystem/frontend/Views/Home/Tablolar.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9UYWJsb2xhci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/sedadiriker/Desktop/MeetManagerSystem/frontend/Views/Home/Toplantı_Ekle.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9Ub3BsYW50xLFfRWtsZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/sedadiriker/Desktop/MeetManagerSystem/frontend/Views/Home/Toplantı_Listesi.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9Ub3BsYW50xLFfTGlzdGVzaS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/sedadiriker/Desktop/MeetManagerSystem/frontend/Views/Home/Toplantı_Raporları.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9Ub3BsYW50xLFfUmFwb3JsYXLEsS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/sedadiriker/Desktop/MeetManagerSystem/frontend/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0Vycm9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/sedadiriker/Desktop/MeetManagerSystem/frontend/Views/Shared/_Footer.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19Gb290ZXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/sedadiriker/Desktop/MeetManagerSystem/frontend/Views/Shared/_Head.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19IZWFkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/sedadiriker/Desktop/MeetManagerSystem/frontend/Views/Shared/_LoginLayout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19Mb2dpbkxheW91dC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/sedadiriker/Desktop/MeetManagerSystem/frontend/Views/Shared/_LogoutModal.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19Mb2dvdXRNb2RhbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/sedadiriker/Desktop/MeetManagerSystem/frontend/Views/Shared/_RegisterLayout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19SZWdpc3RlckxheW91dC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/sedadiriker/Desktop/MeetManagerSystem/frontend/Views/Shared/_Scripts.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19TY3JpcHRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/sedadiriker/Desktop/MeetManagerSystem/frontend/Views/Shared/_ScrollTopBtn.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19TY3JvbGxUb3BCdG4uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/sedadiriker/Desktop/MeetManagerSystem/frontend/Views/Shared/_Sidebar.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19TaWRlYmFyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/sedadiriker/Desktop/MeetManagerSystem/frontend/Views/Shared/_Topbar.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19Ub3BiYXIuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/sedadiriker/Desktop/MeetManagerSystem/frontend/Views/Shared/_ValidationScriptsPartial.cshtml]
