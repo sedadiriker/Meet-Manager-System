@@ -1,0 +1,29 @@
+{
+  "Files": [
+    {
+      "Id": "/Users/sedadiriker/Desktop/MeetManagerSystem/ApiLayer/wwwroot/uploads/450556759_10228750617423056_8147364330573238333_n.jpg",
+      "PackagePath": "staticwebassets/uploads/450556759_10228750617423056_8147364330573238333_n.jpg"
+    },
+    {
+      "Id": "/Users/sedadiriker/Desktop/MeetManagerSystem/ApiLayer/wwwroot/uploads/istockphoto-1055387324-612x612.jpg",
+      "PackagePath": "staticwebassets/uploads/istockphoto-1055387324-612x612.jpg"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.ApiLayer.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.build.ApiLayer.props",
+      "PackagePath": "build\\ApiLayer.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.buildMultiTargeting.ApiLayer.props",
+      "PackagePath": "buildMultiTargeting\\ApiLayer.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.buildTransitive.ApiLayer.props",
+      "PackagePath": "buildTransitive\\ApiLayer.props"
+    }
+  ],
+  "ElementsToRemove": []
+}
