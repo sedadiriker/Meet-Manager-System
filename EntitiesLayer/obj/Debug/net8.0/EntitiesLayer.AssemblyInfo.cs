@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("EntitiesLayer")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f46bcb1936e62d49827f3474d4201d065aaa8cac")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4854748b1d191d6833242a7aac1c473c04ed154b")]
 [assembly: System.Reflection.AssemblyProductAttribute("EntitiesLayer")]
 [assembly: System.Reflection.AssemblyTitleAttribute("EntitiesLayer")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

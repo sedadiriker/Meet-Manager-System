@@ -6,7 +6,7 @@ const login = async (email,password) => {
     localStorage.setItem('user', JSON.stringify(res.data.user));
     setTimeout(() => {
       window.location.href = "/anasayfa";
-    }, 3000)
+    }, 2000)
      toastr.info("Giriş başarılı!", "Başarılı");
   } catch (error) {
     console.log(error)

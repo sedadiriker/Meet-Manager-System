@@ -1,5 +1,34 @@
+@model EntitiesLayer.Models.Meeting
+
 @{
     ViewData["Title"] = "Toplantı Ekle";
 }
 
-<p>Toplantı Ekle</p>
+<div class="container mt-5">
+
+        <h2 class="mb-4">Toplantı Ekle</h2>
+
+    <form asp-action="CreateMeeting" method="post">
+        <div class="form-group">
+            <label for="Name">Toplantı Adı</label>
+            <input type="text" class="form-control" id="Name" name="Name" required />
+        </div>
+        <div class="form-group">
+            <label for="StartDate">Başlangıç Tarihi</label>
+            <input type="datetime-local" class="form-control" id="StartDate" name="StartDate" required />
+        </div>
+        <div class="form-group">
+            <label for="EndDate">Bitiş Tarihi</label>
+            <input type="datetime-local" class="form-control" id="EndDate" name="EndDate" required />
+        </div>
+        <div class="form-group">
+            <label for="Description">Açıklama</label>
+            <textarea class="form-control" id="Description" name="Description"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="DocumentPath">Döküman Ekle</label>
+            <input type="file" class="form-control" id="DocumentPath" name="DocumentPath" />
+        </div>
+        <button type="submit" class="btn btn-primary">Ekle</button>
+    </form>
+</div>

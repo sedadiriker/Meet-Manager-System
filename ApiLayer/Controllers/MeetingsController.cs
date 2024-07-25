@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using EntitiesLayer.Models;
 using System.Collections.Generic;
 
-namespace Meet_Manager.src.Api.Controllers
+namespace ApiLayer.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

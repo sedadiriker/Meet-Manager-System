@@ -1,5 +1,24 @@
+@model IEnumerable<EntitiesLayer.Models.Meeting>
+
 @{
     ViewData["Title"] = "Toplantı Listesi";
 }
 
-<p>Toplantı listesi</p>
+
+<div class="container mt-5">
+        <h2 class="mb-4">Toplantı Listesi</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Adı</th>
+                    <th>Başlangıç Tarihi</th>
+                    <th>Bitiş Tarihi</th>
+                    <th>Açıklama</th>
+                    <th>Döküman</th>
+                </tr>
+            </thead>
+            <tbody id="meetingsBody">
+                <!-- Veriler buraya gelecek -->
+            </tbody>
+        </table>
+    </div>
