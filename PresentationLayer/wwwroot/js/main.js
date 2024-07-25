@@ -8,10 +8,10 @@ document.addEventListener("DOMContentLoaded", () => {
   
     if (user) {
       document.querySelector('.navbar .text-gray-600').textContent = username;
-
-      const imgElement = document.querySelector('.navbar .img-profile');
-      imgElement.src = profilePictureUrl
-
+      const imgElements = document.querySelectorAll('.img-profile');
+      imgElements.forEach(img => (
+        img.src = profilePictureUrl
+      ))
     }
   });
 

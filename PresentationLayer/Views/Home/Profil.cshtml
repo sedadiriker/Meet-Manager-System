@@ -5,13 +5,13 @@
 <div class="container mt-4">
     <div class="row justify-content-center">
         <div class="col-md-6 text-center">
-            <img id="profilePicture" alt="Profile" class="img-fluid rounded-circle" style="width: 50%;" />
+            <img id="profilePicture" alt="Profile" class="img-fluid rounded-circle img-profile" style="width: 50%;" />
         </div>
     </div>
 
     <div class="row justify-content-center mt-4">
         <div class="col-md-6">
-            <form id="profileForm" method="post">
+            <form id="profileForm" method="post" enctype="multipart/form-data">
                 <div class="mb-3">
                     <label for="firstName" class="form-label text-uppercase fw-bold text-secondary">First Name</label>
                     <input type="text" class="form-control" id="firstName" name="FirstName" readonly />
@@ -23,6 +23,14 @@
                 <div class="mb-3">
                     <label for="email" class="form-label text-uppercase fw-bold text-secondary">E-mail</label>
                     <input type="email" class="form-control" id="email" name="Email" readonly />
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label text-uppercase fw-bold text-secondary">Password</label>
+                    <input type="password" class="form-control" id="password" name="Password" readonly />
+                </div>
+                <div class="mb-3">
+                    <label for="profilePictureUpload" class="form-label text-uppercase fw-bold text-secondary">Profile Picture</label>
+                    <input type="file" class="form-control" id="profilePictureUpload" name="ProfilePicture" disabled />
                 </div>
                 
                 <div class="text-center">
