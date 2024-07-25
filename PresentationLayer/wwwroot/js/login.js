@@ -6,39 +6,31 @@ const api = axios.create({
   }
 });
 
-// apiClient.interceptors.request.use(request => {
-//   console.log('Starting Request', request);
-//   return request;
-// });
-
-// apiClient.interceptors.response.use(response => {
-//   console.log('Response:', response);
-//   return response;
-// }, error => {
-//   console.error('Error:', error);
-//   return Promise.reject(error);
-// });
-
-// apiClient.interceptors.request.use(config => {
-//   const token = localStorage.getItem('token');
-//   if (token) {
-//     config.headers.Authorization = `Bearer ${token}`;
-//   }
-//   return config;
-// }, error => {
-//   return Promise.reject(error);
-// });
-
 const login = async (email,password) => {
-
   try {
     const res = await api.post("/api/Auth/login",{email,password})
     localStorage.setItem("token", res.data.token)
     localStorage.setItem('user', JSON.stringify(res.data.user));
-
-    window.location.href = "/anasayfa"
+    setTimeout(() => {
+      window.location.href = "/anasayfa";
+    }, 3000)
+     toastr.info("Giriş başarılı!", "Başarılı");
   } catch (error) {
     console.log(error)
+    
+    if (error.response && error.response.data) {
+      const { message } = error.response.data;
+
+      if (message.includes("email") || message.includes("parola")) {
+        toastr.error("E-posta veya şifre hatalı. Lütfen tekrar deneyin.", "Hata");
+      } else if (message.includes("user")) {
+        toastr.error("Kullanıcı bulunamadı. Lütfen bilgilerinizi kontrol edin.", "Hata");
+      } else {
+        toastr.error("Giriş sırasında bir hata oluştu. Lütfen tekrar deneyin.", "Hata");
+      }
+    } else {
+      toastr.error("Giriş sırasında bir hata oluştu. Lütfen tekrar deneyin.", "Hata");
+    }
   }
 }
 

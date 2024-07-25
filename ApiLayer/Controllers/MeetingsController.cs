@@ -56,8 +56,7 @@ namespace Meet_Manager.src.Api.Controllers
         [HttpGet("{id}/report")]
         public IActionResult GetMeetingReport(int id)
         {
-            // Toplantı raporunu oluşturma kodu
-            var report = new byte[0]; // Örnek veri
+            var report = new byte[0]; 
             return File(report, "application/pdf", "meeting-report.pdf");
         }
     }

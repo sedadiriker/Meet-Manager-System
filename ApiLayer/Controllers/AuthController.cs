@@ -54,72 +54,72 @@ namespace ApiLayer.Controllers
             });
         }
 
-        [HttpPost("register")]
-        [Consumes("multipart/form-data")]
-        [SwaggerOperation(Summary = "Kullanıcı Kaydı")]
-        [SwaggerResponse(StatusCodes.Status200OK, "Kayıt başarılı.")]
-        [SwaggerResponse(StatusCodes.Status400BadRequest, "Geçersiz e-posta veya diğer kayıt hataları.")]
-        public async Task<IActionResult> Register(
-            [FromForm] RegisterDto registerDto,
-            [FromForm] IFormFile profilePicture) //Fromform idi
-        {
-            if (await _userService.UserExistsAsync(registerDto.Email))
-            {
-                return BadRequest("Bu e-posta adresi zaten kayıtlı.");
-            }
+        // [HttpPost("register")]
+        // [Consumes("multipart/form-data")]
+        // [SwaggerOperation(Summary = "Kullanıcı Kaydı")]
+        // [SwaggerResponse(StatusCodes.Status200OK, "Kayıt başarılı.")]
+        // [SwaggerResponse(StatusCodes.Status400BadRequest, "Geçersiz e-posta veya diğer kayıt hataları.")]
+        // public async Task<IActionResult> Register(
+        //     [FromForm] RegisterDto registerDto,
+        //     [FromForm] IFormFile profilePicture) //Fromform idi
+        // {
+        //     if (await _userService.UserExistsAsync(registerDto.Email))
+        //     {
+        //         return BadRequest("Bu e-posta adresi zaten kayıtlı.");
+        //     }
 
-            var salt = GenerateSalt();
-            var hashedPassword = HashPassword(registerDto.Password, salt);
+        //     var salt = GenerateSalt();
+        //     var hashedPassword = HashPassword(registerDto.Password, salt);
 
-            string profilePicturePath = null;
-            if (profilePicture != null && profilePicture.Length > 0)
-            {
-                var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
-                Directory.CreateDirectory(uploadsFolder); // Ensure directory exists
+        //     string profilePicturePath = null;
+        //     if (profilePicture != null && profilePicture.Length > 0)
+        //     {
+        //         var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
+        //         Directory.CreateDirectory(uploadsFolder); // Ensure directory exists
 
-                profilePicturePath = Path.Combine(uploadsFolder, profilePicture.FileName);
-                using (var stream = new FileStream(profilePicturePath, FileMode.Create))
-                {
-                    await profilePicture.CopyToAsync(stream);
-                }
-            }
+        //         profilePicturePath = Path.Combine(uploadsFolder, profilePicture.FileName);
+        //         using (var stream = new FileStream(profilePicturePath, FileMode.Create))
+        //         {
+        //             await profilePicture.CopyToAsync(stream);
+        //         }
+        //     }
 
-            var newUser = new User
-            {
-                FirstName = registerDto.FirstName,
-                LastName = registerDto.LastName,
-                Email = registerDto.Email,
-                Phone = registerDto.Phone,
-                PasswordHash = hashedPassword,
-                ProfilePicture = profilePicturePath // Save the path or URL to the profile picture
-            };
+        //     var newUser = new User
+        //     {
+        //         FirstName = registerDto.FirstName,
+        //         LastName = registerDto.LastName,
+        //         Email = registerDto.Email,
+        //         Phone = registerDto.Phone,
+        //         PasswordHash = hashedPassword,
+        //         ProfilePicture = profilePicturePath // Save the path or URL to the profile picture
+        //     };
 
-            await _userService.CreateUserAsync(newUser);
-            await _emailService.SendWelcomeEmailAsync(newUser.Email, newUser.FirstName);
+        //     await _userService.CreateUserAsync(newUser);
+        //     await _emailService.SendWelcomeEmailAsync(newUser.Email, newUser.FirstName);
 
-            return Ok("Kayıt işlemi başarılı.");
-        }
+        //     return Ok("Kayıt işlemi başarılı.");
+        // }
 
-        private string GenerateSalt()
-        {
-            byte[] salt = new byte[128 / 8];
-            using (var rng = RandomNumberGenerator.Create())
-            {
-                rng.GetBytes(salt);
-            }
-            return Convert.ToBase64String(salt);
-        }
+        // private string GenerateSalt()
+        // {
+        //     byte[] salt = new byte[128 / 8];
+        //     using (var rng = RandomNumberGenerator.Create())
+        //     {
+        //         rng.GetBytes(salt);
+        //     }
+        //     return Convert.ToBase64String(salt);
+        // }
 
-        private string HashPassword(string password, string salt)
-        {
-            string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
-                password: password,
-                salt: Convert.FromBase64String(salt),
-                prf: KeyDerivationPrf.HMACSHA256,
-                iterationCount: 10000,
-                numBytesRequested: 256 / 8));
+        // private string HashPassword(string password, string salt)
+        // {
+        //     string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+        //         password: password,
+        //         salt: Convert.FromBase64String(salt),
+        //         prf: KeyDerivationPrf.HMACSHA256,
+        //         iterationCount: 10000,
+        //         numBytesRequested: 256 / 8));
 
-            return $"{salt}.{hashed}";
-        }
+        //     return $"{salt}.{hashed}";
+        // }
     }
 }

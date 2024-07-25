@@ -63,11 +63,9 @@ builder.Services.AddSwaggerGen(options =>
         }
     });
 });
-// DbContext ve diğer servisleri DI konteynerine ekleyin
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// IUserService ve UserService'i DI konteynerine ekleyin
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ITokenService, TokenService>(); 
 
