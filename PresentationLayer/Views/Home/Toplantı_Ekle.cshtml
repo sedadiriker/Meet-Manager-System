@@ -8,7 +8,8 @@
 
         <h2 class="mb-4">Toplantı Ekle</h2>
 
-    <form asp-action="CreateMeeting" method="post">
+    <form id="createMeetingForm" asp-action="CreateMeeting" method="post" enctype="multipart/form-data">
+
         <div class="form-group">
             <label for="Name">Toplantı Adı</label>
             <input type="text" class="form-control" id="Name" name="Name" required />

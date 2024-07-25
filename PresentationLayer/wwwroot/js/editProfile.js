@@ -1,7 +1,6 @@
 
 document.addEventListener("DOMContentLoaded", () => {
     const user = JSON.parse(localStorage.getItem('user'));
-
         document.getElementById('firstName').value = user.firstName;
         document.getElementById('lastName').value = user.lastName;
         document.getElementById('email').value = user.email;

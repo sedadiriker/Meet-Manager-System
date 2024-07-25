@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using EntitiesLayer.Models;
-using BusinessLayer.Services;
 using BusinessLayer.Interfaces;
-using System.Collections.Generic;
+using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace ApiLayer.Controllers
 {
@@ -41,13 +41,36 @@ namespace ApiLayer.Controllers
 
         // POST: api/meetings
         [HttpPost]
-        public IActionResult CreateMeeting([FromBody] Meeting meeting)
+        public IActionResult CreateMeeting([FromForm] Meeting meeting, IFormFile documentPath)
         {
             if (meeting == null)
             {
-                return BadRequest();
+                return BadRequest("Toplantı bilgileri geçersiz.");
             }
+
+            if (documentPath != null && documentPath.Length > 0)
+            {
+                // Dosya yükleme işlemi
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads", documentPath.FileName);
+
+                // Dosya yükleme
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    documentPath.CopyTo(stream);
+                }
+
+                // Toplantı nesnesine dosya yolunu ekleyin
+                meeting.DocumentPath = $"/uploads/{documentPath.FileName}";
+            }
+
+            // Toplantıyı veritabanına kaydedin
             var createdMeeting = _meetingService.CreateMeeting(meeting);
+
+            if (createdMeeting == null)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Toplantı oluşturulamadı.");
+            }
+
             return CreatedAtAction(nameof(GetMeeting), new { id = createdMeeting.Id }, createdMeeting);
         }
 
@@ -59,11 +82,13 @@ namespace ApiLayer.Controllers
             {
                 return BadRequest();
             }
+
             var existingMeeting = _meetingService.GetMeetingById(id);
             if (existingMeeting == null)
             {
                 return NotFound();
             }
+
             _meetingService.UpdateMeeting(id, meeting);
             return NoContent();
         }
@@ -77,6 +102,7 @@ namespace ApiLayer.Controllers
             {
                 return NotFound();
             }
+
             _meetingService.DeleteMeeting(id);
             return NoContent();
         }
@@ -85,7 +111,7 @@ namespace ApiLayer.Controllers
         [HttpGet("{id}/report")]
         public IActionResult GetMeetingReport(int id)
         {
-            var report = new byte[0]; 
+            var report = new byte[0]; // Rapor verisini buradan alın
             return File(report, "application/pdf", "meeting-report.pdf");
         }
     }

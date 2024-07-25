@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
     formData.append("Password", document.getElementById("password").value);
     formData.append("ProfilePicture", document.getElementById("profilePicture").files[0]);
 
-    const URL = "http://localhost:5064/api/Auth/register";
+    const URL = "http://localhost:5064/api/User";
 
     try {
       const response = await axios.post(URL, formData, {

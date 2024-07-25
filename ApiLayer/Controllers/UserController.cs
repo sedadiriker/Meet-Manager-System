@@ -59,7 +59,7 @@ namespace ApiLayer.Controllers
         [SwaggerResponse(StatusCodes.Status200OK, "Kullanıcı başarılı şekilde oluşturuldu.")]
         [SwaggerResponse(StatusCodes.Status400BadRequest, "Geçersiz e-posta veya diğer kayıt hataları.")]
         public async Task<IActionResult> CreateUser(
-            [FromBody] RegisterDto registerDto,
+            [FromForm] RegisterDto registerDto,
             [FromForm] IFormFile profilePicture)
         {
             if (await _userService.UserExistsAsync(registerDto.Email))
@@ -74,7 +74,7 @@ namespace ApiLayer.Controllers
             if (profilePicture != null && profilePicture.Length > 0)
             {
                 var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
-                Directory.CreateDirectory(uploadsFolder); // Ensure directory exists
+                Directory.CreateDirectory(uploadsFolder); 
 
                 profilePicturePath = Path.Combine(uploadsFolder, profilePicture.FileName);
                 using (var stream = new FileStream(profilePicturePath, FileMode.Create))
