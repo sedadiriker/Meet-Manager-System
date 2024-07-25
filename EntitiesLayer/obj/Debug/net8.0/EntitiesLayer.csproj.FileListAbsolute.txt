@@ -1,6 +1,7 @@
 /Users/sedadiriker/Desktop/MeetManagerSystem/EntitiesLayer/bin/Debug/net8.0/EntitiesLayer.deps.json
 /Users/sedadiriker/Desktop/MeetManagerSystem/EntitiesLayer/bin/Debug/net8.0/EntitiesLayer.dll
 /Users/sedadiriker/Desktop/MeetManagerSystem/EntitiesLayer/bin/Debug/net8.0/EntitiesLayer.pdb
+/Users/sedadiriker/Desktop/MeetManagerSystem/EntitiesLayer/obj/Debug/net8.0/EntitiesLayer.csproj.AssemblyReference.cache
 /Users/sedadiriker/Desktop/MeetManagerSystem/EntitiesLayer/obj/Debug/net8.0/EntitiesLayer.GeneratedMSBuildEditorConfig.editorconfig
 /Users/sedadiriker/Desktop/MeetManagerSystem/EntitiesLayer/obj/Debug/net8.0/EntitiesLayer.AssemblyInfoInputs.cache
 /Users/sedadiriker/Desktop/MeetManagerSystem/EntitiesLayer/obj/Debug/net8.0/EntitiesLayer.AssemblyInfo.cs

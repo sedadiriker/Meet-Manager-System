@@ -26,7 +26,7 @@ namespace ApiLayer.Controllers
             _emailService = emailService;
         }
 
-    // Get users
+        // Get users
         [HttpGet]
         [SwaggerOperation(Summary = "Tüm kullanıcıları listele")]
         [SwaggerResponse(StatusCodes.Status200OK, "Kullanıcılar başarılı şekilde listelendi.")]
@@ -36,7 +36,7 @@ namespace ApiLayer.Controllers
             return Ok(users);
         }
 
-    // Get user
+        // Get user
         [HttpGet("{id}")]
         [SwaggerOperation(Summary = "Belirli bir kullanıcıyı getir")]
         [SwaggerResponse(StatusCodes.Status200OK, "Kullanıcı başarılı şekilde getirildi.")]
@@ -52,7 +52,7 @@ namespace ApiLayer.Controllers
             return Ok(user);
         }
 
-    // POST user
+        // POST user
         [HttpPost]
         [Consumes("multipart/form-data")]
         [SwaggerOperation(Summary = "Yeni kullanıcı oluştur")]
@@ -90,7 +90,7 @@ namespace ApiLayer.Controllers
                 Email = registerDto.Email,
                 Phone = registerDto.Phone,
                 PasswordHash = hashedPassword,
-                ProfilePicture = profilePicturePath 
+                ProfilePicture = profilePicturePath
             };
 
             await _userService.CreateUserAsync(newUser);
@@ -98,12 +98,13 @@ namespace ApiLayer.Controllers
 
             return Ok("Kayıt işlemi başarılı.");
         }
-
+        // PUT User
         [HttpPut("{id}")]
+        [Consumes("multipart/form-data")]
         [SwaggerOperation(Summary = "Kullanıcıyı güncelle")]
         [SwaggerResponse(StatusCodes.Status200OK, "Kullanıcı başarılı şekilde güncellendi.")]
         [SwaggerResponse(StatusCodes.Status404NotFound, "Kullanıcı bulunamadı.")]
-        public async Task<IActionResult> UpdateUser(int id, [FromBody] User updatedUser)
+        public async Task<IActionResult> UpdateUser(int id, [FromForm] UpdateUserDto updatedUserDto, [FromForm] IFormFile profilePicture)
         {
             var user = await _userService.GetUserByIdAsync(id);
             if (user == null)
@@ -111,15 +112,37 @@ namespace ApiLayer.Controllers
                 return NotFound("Kullanıcı bulunamadı.");
             }
 
-            user.FirstName = updatedUser.FirstName;
-            user.LastName = updatedUser.LastName;
-            user.Email = updatedUser.Email;
-            user.Phone = updatedUser.Phone;
-            // Diğer alanları da güncellemek gerekebilir
+            user.FirstName = updatedUserDto.FirstName;
+            user.LastName = updatedUserDto.LastName;
+            user.Email = updatedUserDto.Email;
+            user.Phone = updatedUserDto.Phone;
+
+            if (!string.IsNullOrEmpty(updatedUserDto.Password))
+            {
+                var salt = GenerateSalt();
+                var hashedPassword = HashPassword(updatedUserDto.Password, salt);
+                user.PasswordHash = hashedPassword;
+            }
+
+            if (profilePicture != null && profilePicture.Length > 0)
+            {
+                var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
+                Directory.CreateDirectory(uploadsFolder); // Ensure directory exists
+
+                var profilePicturePath = Path.Combine(uploadsFolder, profilePicture.FileName);
+                using (var stream = new FileStream(profilePicturePath, FileMode.Create))
+                {
+                    await profilePicture.CopyToAsync(stream);
+                }
+
+                user.ProfilePicture = profilePicturePath;
+            }
 
             await _userService.UpdateUserAsync(user);
             return Ok("Kullanıcı başarılı şekilde güncellendi.");
         }
+
+
 
         [HttpDelete("{id}")]
         [SwaggerOperation(Summary = "Kullanıcıyı sil")]

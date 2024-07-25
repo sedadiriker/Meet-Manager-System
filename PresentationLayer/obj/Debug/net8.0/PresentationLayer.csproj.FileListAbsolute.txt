@@ -312,6 +312,8 @@
 /Users/sedadiriker/Desktop/MeetManagerSystem/PresentationLayer/bin/Debug/net8.0/refs/WindowsBase.dll
 /Users/sedadiriker/Desktop/MeetManagerSystem/PresentationLayer/bin/Debug/net8.0/Azure.Core.dll
 /Users/sedadiriker/Desktop/MeetManagerSystem/PresentationLayer/bin/Debug/net8.0/Azure.Identity.dll
+/Users/sedadiriker/Desktop/MeetManagerSystem/PresentationLayer/bin/Debug/net8.0/BouncyCastle.Cryptography.dll
+/Users/sedadiriker/Desktop/MeetManagerSystem/PresentationLayer/bin/Debug/net8.0/MailKit.dll
 /Users/sedadiriker/Desktop/MeetManagerSystem/PresentationLayer/bin/Debug/net8.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
 /Users/sedadiriker/Desktop/MeetManagerSystem/PresentationLayer/bin/Debug/net8.0/Microsoft.AspNetCore.JsonPatch.dll
 /Users/sedadiriker/Desktop/MeetManagerSystem/PresentationLayer/bin/Debug/net8.0/Microsoft.AspNetCore.Mvc.Razor.Extensions.dll
@@ -339,6 +341,7 @@
 /Users/sedadiriker/Desktop/MeetManagerSystem/PresentationLayer/bin/Debug/net8.0/Microsoft.OpenApi.dll
 /Users/sedadiriker/Desktop/MeetManagerSystem/PresentationLayer/bin/Debug/net8.0/Microsoft.SqlServer.Server.dll
 /Users/sedadiriker/Desktop/MeetManagerSystem/PresentationLayer/bin/Debug/net8.0/Microsoft.Win32.SystemEvents.dll
+/Users/sedadiriker/Desktop/MeetManagerSystem/PresentationLayer/bin/Debug/net8.0/MimeKit.dll
 /Users/sedadiriker/Desktop/MeetManagerSystem/PresentationLayer/bin/Debug/net8.0/Namotion.Reflection.dll
 /Users/sedadiriker/Desktop/MeetManagerSystem/PresentationLayer/bin/Debug/net8.0/Newtonsoft.Json.dll
 /Users/sedadiriker/Desktop/MeetManagerSystem/PresentationLayer/bin/Debug/net8.0/Newtonsoft.Json.Bson.dll
@@ -426,6 +429,3 @@
 /Users/sedadiriker/Desktop/MeetManagerSystem/PresentationLayer/obj/Debug/net8.0/PresentationLayer.pdb
 /Users/sedadiriker/Desktop/MeetManagerSystem/PresentationLayer/obj/Debug/net8.0/PresentationLayer.genruntimeconfig.cache
 /Users/sedadiriker/Desktop/MeetManagerSystem/PresentationLayer/obj/Debug/net8.0/ref/PresentationLayer.dll
-/Users/sedadiriker/Desktop/MeetManagerSystem/PresentationLayer/bin/Debug/net8.0/BouncyCastle.Cryptography.dll
-/Users/sedadiriker/Desktop/MeetManagerSystem/PresentationLayer/bin/Debug/net8.0/MailKit.dll
-/Users/sedadiriker/Desktop/MeetManagerSystem/PresentationLayer/bin/Debug/net8.0/MimeKit.dll

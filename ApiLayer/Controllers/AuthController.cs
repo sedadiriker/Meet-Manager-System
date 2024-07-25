@@ -46,6 +46,7 @@ namespace ApiLayer.Controllers
                 Token = token,
                 User = new
                 {
+                    Id = user.Id,
                     user.FirstName,
                     user.LastName,
                     user.Email,
