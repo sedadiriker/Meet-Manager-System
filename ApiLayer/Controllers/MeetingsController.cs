@@ -1,21 +1,29 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using EntitiesLayer.Models;
+using BusinessLayer.Services;
+using BusinessLayer.Interfaces;
 using System.Collections.Generic;
 
 namespace ApiLayer.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize] 
+    [Authorize]
     public class MeetingsController : ControllerBase
     {
+        private readonly IMeetingService _meetingService;
+
+        public MeetingsController(IMeetingService meetingService)
+        {
+            _meetingService = meetingService;
+        }
+
         // GET: api/meetings
         [HttpGet]
         public IActionResult GetMeetings()
         {
-            // Toplantıları getirme kodu
-            var meetings = new List<Meeting>(); // Örnek veri
+            var meetings = _meetingService.GetAllMeetings();
             return Ok(meetings);
         }
 
@@ -23,8 +31,11 @@ namespace ApiLayer.Controllers
         [HttpGet("{id}")]
         public IActionResult GetMeeting(int id)
         {
-            // Toplantıyı getirme kodu
-            var meeting = new Meeting(); // Örnek veri
+            var meeting = _meetingService.GetMeetingById(id);
+            if (meeting == null)
+            {
+                return NotFound();
+            }
             return Ok(meeting);
         }
 
@@ -32,15 +43,28 @@ namespace ApiLayer.Controllers
         [HttpPost]
         public IActionResult CreateMeeting([FromBody] Meeting meeting)
         {
-            // Toplantıyı oluşturma kodu
-            return CreatedAtAction(nameof(GetMeeting), new { id = meeting.Id }, meeting);
+            if (meeting == null)
+            {
+                return BadRequest();
+            }
+            var createdMeeting = _meetingService.CreateMeeting(meeting);
+            return CreatedAtAction(nameof(GetMeeting), new { id = createdMeeting.Id }, createdMeeting);
         }
 
         // PUT: api/meetings/{id}
         [HttpPut("{id}")]
         public IActionResult UpdateMeeting(int id, [FromBody] Meeting meeting)
         {
-            // Toplantıyı güncelleme kodu
+            if (meeting == null || meeting.Id != id)
+            {
+                return BadRequest();
+            }
+            var existingMeeting = _meetingService.GetMeetingById(id);
+            if (existingMeeting == null)
+            {
+                return NotFound();
+            }
+            _meetingService.UpdateMeeting(id, meeting);
             return NoContent();
         }
 
@@ -48,7 +72,12 @@ namespace ApiLayer.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteMeeting(int id)
         {
-            // Toplantıyı silme kodu
+            var existingMeeting = _meetingService.GetMeetingById(id);
+            if (existingMeeting == null)
+            {
+                return NotFound();
+            }
+            _meetingService.DeleteMeeting(id);
             return NoContent();
         }
 
