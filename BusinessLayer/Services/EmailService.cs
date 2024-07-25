@@ -1,59 +1,59 @@
+using Microsoft.Extensions.Options;
+using BusinessLayer.Interfaces;
+using EntitiesLayer.Models;
 using System.Net;
 using System.Net.Mail;
-using BusinessLayer.Interfaces;
-using Microsoft.Extensions.Configuration;
+using System.Threading.Tasks;
+
 
 namespace BusinessLayer.Services
 {
     public class EmailService : IEmailService
+    {
+        private readonly EmailSettings _emailSettings;
+
+        public EmailService(IOptions<EmailSettings> emailSettings)
+        {
+            _emailSettings = emailSettings.Value;
+        }
+
+        public async Task SendWelcomeEmailAsync(string toEmail, string firstName)
 {
-    private readonly IConfiguration _configuration;
-    private readonly string _smtpServer;
-    private readonly int _smtpPort;
-    private readonly string _smtpUser;
-    private readonly string _smtpPassword;
-    private readonly string _senderEmail;
-    private readonly string _senderName;
+    var subject = "Hoş Geldiniz!";
+    var body = $@"
+        <h1>Hoş Geldiniz, {firstName}!</h1>
+        <p>Uygulamamıza kaydolduğunuz için teşekkür ederiz.</p>
+        <p>Herhangi bir sorunla karşılaşırsanız, lütfen bizimle iletişime geçin.</p>
+        <p>İyi günler dileriz!</p>";
 
-    public EmailService(IConfiguration configuration)
+    using (var message = new MailMessage())
     {
-        _configuration = configuration;
-        _smtpServer = _configuration["SmtpSettings:Server"];
-        _smtpPort = int.Parse(_configuration["SmtpSettings:Port"]);
-        _smtpUser = _configuration["SmtpSettings:Username"];
-        _smtpPassword = _configuration["SmtpSettings:Password"];
-        _senderEmail = _configuration["SmtpSettings:SenderEmail"];
-        _senderName = _configuration["SmtpSettings:SenderName"];
-    }
+        message.From = new MailAddress(_emailSettings.SenderEmail,_emailSettings.SenderName);
+        message.To.Add(toEmail);
+        message.Subject = subject;
+        message.Body = body;
+        message.IsBodyHtml = true;
 
-    public async Task SendWelcomeEmailAsync(string email, string firstName)
-    {
-        var smtpClient = new SmtpClient(_smtpServer)
+        using (var smtpClient = new SmtpClient(_emailSettings.SmtpServer, _emailSettings.SmtpPort))
         {
-            Port = _smtpPort,
-            Credentials = new NetworkCredential(_smtpUser, _smtpPassword),
-            EnableSsl = true,
-        };
-
-        var mailMessage = new MailMessage
-        {
-            From = new MailAddress(_senderEmail, _senderName),
-            Subject = "Hoş Geldiniz!",
-            Body = $"Merhaba {firstName},<br/><br/>Kayıt işleminiz başarılı!<br/><br/>Teşekkürler,<br/>YourAppName",
-            IsBodyHtml = true,
-        };
-        mailMessage.To.Add(email);
-
-        try
-        {
-            await smtpClient.SendMailAsync(mailMessage);
-        }
-        catch (Exception ex)
-        {
-            // Log exception details here
-            Console.WriteLine($"E-posta gönderimi sırasında bir hata oluştu: {ex.Message}");
-            throw;
+            smtpClient.Credentials = new NetworkCredential(_emailSettings.SenderEmail, _emailSettings.Password);
+            smtpClient.EnableSsl = true; // SSL'yi etkinleştir
+            try
+            {
+                await smtpClient.SendMailAsync(message);
+            }
+            catch (SmtpException ex)
+            {
+                // Hata yönetimi
+                Console.WriteLine($"SMTP Hatası: {ex.Message}");
+                throw;
+            }
         }
     }
 }
+
+
+
+    }
 }
+

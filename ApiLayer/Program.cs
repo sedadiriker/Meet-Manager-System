@@ -69,8 +69,11 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 // IUserService ve UserService'i DI konteynerine ekleyin
 builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<ITokenService, TokenService>(); // TokenService'in doğru şekilde tanımlandığından emin olun
+builder.Services.AddScoped<ITokenService, TokenService>(); 
+
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 builder.Services.AddScoped<IEmailService, EmailService>();
+
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())

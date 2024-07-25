@@ -1,8 +1,8 @@
 
 namespace BusinessLayer.Interfaces
 {
-    public interface IEmailService
-    {
-        Task SendWelcomeEmailAsync(string email, string firstName);
-    }
+   public interface IEmailService
+{
+    Task SendWelcomeEmailAsync(string toEmail, string name);
+}
 }

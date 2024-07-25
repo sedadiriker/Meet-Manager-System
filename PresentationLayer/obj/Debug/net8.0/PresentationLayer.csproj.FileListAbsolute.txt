@@ -426,3 +426,6 @@
 /Users/sedadiriker/Desktop/MeetManagerSystem/PresentationLayer/obj/Debug/net8.0/PresentationLayer.pdb
 /Users/sedadiriker/Desktop/MeetManagerSystem/PresentationLayer/obj/Debug/net8.0/PresentationLayer.genruntimeconfig.cache
 /Users/sedadiriker/Desktop/MeetManagerSystem/PresentationLayer/obj/Debug/net8.0/ref/PresentationLayer.dll
+/Users/sedadiriker/Desktop/MeetManagerSystem/PresentationLayer/bin/Debug/net8.0/BouncyCastle.Cryptography.dll
+/Users/sedadiriker/Desktop/MeetManagerSystem/PresentationLayer/bin/Debug/net8.0/MailKit.dll
+/Users/sedadiriker/Desktop/MeetManagerSystem/PresentationLayer/bin/Debug/net8.0/MimeKit.dll

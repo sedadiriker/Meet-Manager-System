@@ -466,3 +466,6 @@
 /Users/sedadiriker/Desktop/MeetManagerSystem/ApiLayer/obj/Debug/net8.0/ApiLayer.pdb
 /Users/sedadiriker/Desktop/MeetManagerSystem/ApiLayer/obj/Debug/net8.0/ApiLayer.genruntimeconfig.cache
 /Users/sedadiriker/Desktop/MeetManagerSystem/ApiLayer/obj/Debug/net8.0/ref/ApiLayer.dll
+/Users/sedadiriker/Desktop/MeetManagerSystem/ApiLayer/bin/Debug/net8.0/BouncyCastle.Cryptography.dll
+/Users/sedadiriker/Desktop/MeetManagerSystem/ApiLayer/bin/Debug/net8.0/MailKit.dll
+/Users/sedadiriker/Desktop/MeetManagerSystem/ApiLayer/bin/Debug/net8.0/MimeKit.dll

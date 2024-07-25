@@ -55,12 +55,12 @@ namespace ApiLayer.Controllers
         }
 
         [HttpPost("register")]
-        // [Consumes("multipart/form-data")]
+        [Consumes("multipart/form-data")]
         [SwaggerOperation(Summary = "Kullanıcı Kaydı")]
         [SwaggerResponse(StatusCodes.Status200OK, "Kayıt başarılı.")]
         [SwaggerResponse(StatusCodes.Status400BadRequest, "Geçersiz e-posta veya diğer kayıt hataları.")]
         public async Task<IActionResult> Register(
-            [FromBody] RegisterDto registerDto,
+            [FromForm] RegisterDto registerDto,
             [FromForm] IFormFile profilePicture) //Fromform idi
         {
             if (await _userService.UserExistsAsync(registerDto.Email))
