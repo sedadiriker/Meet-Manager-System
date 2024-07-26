@@ -1,3 +1,4 @@
+//toplantı_silme.js
 document.addEventListener('DOMContentLoaded', function () {
     var token = localStorage.getItem('token'); 
     var deleteMeetingId = null; 
@@ -36,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     document.addEventListener('click', function (event) {
-        if (event.target.classList.contains('btn-outline-danger')) {
+        if (event.target.classList.contains('delete')) {
             deleteMeetingId = event.target.getAttribute('data-id'); 
             commonModalTitle.textContent = 'Toplantı Silme';
             commonModalBody.textContent = 'Bu toplantıyı silmek istediğinizden emin misiniz?';

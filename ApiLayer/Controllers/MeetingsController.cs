@@ -83,7 +83,7 @@ namespace ApiLayer.Controllers
 
         // PUT: api/meetings/{id}
         [HttpPut("{id}")]
-        public IActionResult UpdateMeeting(int id, [FromBody] Meeting meeting)
+        public IActionResult UpdateMeeting(int id, [FromForm] Meeting meeting)
         {
             if (meeting == null || meeting.Id != id)
             {

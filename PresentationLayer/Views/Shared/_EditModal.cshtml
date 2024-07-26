@@ -1,0 +1,41 @@
+<!-- Toplantıyı Düzenleme Modal -->
+<div class="modal fade" id="editMeetingModal" tabindex="-1" role="dialog" aria-labelledby="editMeetingModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editMeetingModalLabel">Toplantıyı Düzenle</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="editMeetingForm" enctype="multipart/form-data">
+                    <!-- Form Alanları -->
+                    <div class="form-group">
+                        <label for="editName">Adı</label>
+                        <input type="text" class="form-control" id="editName" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editStartDate">Başlangıç Tarihi</label>
+                        <input type="datetime-local" class="form-control" id="editStartDate" name="startDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editEndDate">Bitiş Tarihi</label>
+                        <input type="datetime-local" class="form-control" id="editEndDate" name="endDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editDescription">Açıklama</label>
+                        <textarea class="form-control" id="editDescription" name="description" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="editDocumentPath">Döküman</label>
+                        <input type="file" class="form-control" id="editDocumentPath" name="document">
+                        <p id="currentDocument"></p> <!-- Mevcut döküman bilgisi için eklenen alan -->
+                    </div>
+                    <input type="hidden" id="editMeetingId" name="id">
+                    <button type="submit" class="btn btn-primary">Kaydet</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
