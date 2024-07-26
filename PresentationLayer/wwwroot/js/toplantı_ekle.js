@@ -1,9 +1,22 @@
+document.addEventListener("DOMContentLoaded", function () {
+  var now = new Date();
+  var today = now.toISOString().split("T")[0] + 'T' + now.toTimeString().split(" ")[0];
+
+  document.getElementById("StartDate").setAttribute("min", today);
+  document.getElementById("EndDate").setAttribute("min", today);
+
+  document.getElementById("StartDate").addEventListener("change", function () {
+      var startDate = document.getElementById("StartDate").value;
+      document.getElementById("EndDate").setAttribute("min", startDate);
+  });
+});
+
 const form = document.getElementById("createMeetingForm");
 
 form.addEventListener("submit", (e) => {
   e.preventDefault();
 
-  const formData = new FormData(form);
+const formData = new FormData(form);
 
   // for (let [key, value] of formData.entries()) {
   //   console.log(`${key}: ${value}`);
@@ -11,6 +24,7 @@ form.addEventListener("submit", (e) => {
 
   const URL = "http://localhost:5064/api/Meetings";
 
+  
 
   const token = localStorage.getItem("token");
 
