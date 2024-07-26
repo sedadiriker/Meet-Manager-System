@@ -51,98 +51,102 @@ namespace ApiLayer.Controllers
         // POST: api/meetings
         [HttpPost]
         public IActionResult CreateMeeting([FromForm] Meeting meeting, IFormFile documentPath)
+{
+    if (meeting == null)
+    {
+        return BadRequest("Toplantı bilgileri geçersiz.");
+    }
+
+    if (documentPath != null && documentPath.Length > 0)
+    {
+        try
         {
-            if (meeting == null)
+            var uploadFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
+            var filePath = Path.Combine(uploadFolder, documentPath.FileName);
+
+            if (!Directory.Exists(uploadFolder))
             {
-                return BadRequest("Toplantı bilgileri geçersiz.");
+                Directory.CreateDirectory(uploadFolder);
             }
 
-            if (documentPath != null && documentPath.Length > 0)
+            using (var stream = new FileStream(filePath, FileMode.Create))
             {
-                try
-                {
-                    var apiFilePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads", documentPath.FileName);
-
-                    using (var stream = new FileStream(apiFilePath, FileMode.Create))
-                    {
-                        documentPath.CopyTo(stream);
-                    }
-
-                    var presentationFilePath = Path.Combine(Directory.GetCurrentDirectory(), "..", "PresentationLayer", "wwwroot", "uploads", documentPath.FileName);
-
-                    System.IO.File.Copy(apiFilePath, presentationFilePath, overwrite: true);
-
-                    meeting.DocumentPath = $"/uploads/{documentPath.FileName}";
-                }
-                catch (Exception ex)
-                {
-                    return StatusCode(StatusCodes.Status500InternalServerError, $"Dosya işlemi hatası: {ex.Message}");
-                }
+                documentPath.CopyTo(stream);
             }
 
-            var createdMeeting = _meetingService.CreateMeeting(meeting);
-
-            if (createdMeeting == null)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Toplantı oluşturulamadı.");
-            }
-
-            return CreatedAtAction(nameof(GetMeeting), new { id = createdMeeting.Id }, createdMeeting);
+            meeting.DocumentPath = $"/uploads/{documentPath.FileName}";
         }
+        catch (Exception ex)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError, $"Dosya işlemi hatası: {ex.Message}");
+        }
+    }
+
+    var createdMeeting = _meetingService.CreateMeeting(meeting);
+
+    if (createdMeeting == null)
+    {
+        return StatusCode(StatusCodes.Status500InternalServerError, "Toplantı oluşturulamadı.");
+    }
+
+    return CreatedAtAction(nameof(GetMeeting), new { id = createdMeeting.Id }, createdMeeting);
+}
+
 
 
         [HttpPut("{id}")]
-        [SwaggerOperation(Summary = "Toplantıyı güncelle")]
-        public async Task<IActionResult> UpdateMeeting(int id, [FromForm] EditMeetingDto editMeetingDto)
+[SwaggerOperation(Summary = "Toplantıyı güncelle")]
+public async Task<IActionResult> UpdateMeeting(int id, [FromForm] EditMeetingDto editMeetingDto)
+{
+    if (editMeetingDto == null)
+    {
+        _logger.LogError("Güncelleme bilgileri eksik.");
+        return BadRequest("Güncelleme bilgileri eksik.");
+    }
+
+    var existingMeeting = _meetingService.GetMeetingById(id);
+    if (existingMeeting == null)
+    {
+        return NotFound("Toplantı bulunamadı.");
+    }
+
+    existingMeeting.Name = editMeetingDto.Name;
+    existingMeeting.StartDate = editMeetingDto.StartDate;
+    existingMeeting.EndDate = editMeetingDto.EndDate;
+    existingMeeting.Description = editMeetingDto.Description;
+
+    if (editMeetingDto.DocumentPath != null && editMeetingDto.DocumentPath.Length > 0)
+    {
+        try
         {
-            if (editMeetingDto == null)
+            var uploadFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
+            var filePath = Path.Combine(uploadFolder, editMeetingDto.DocumentPath.FileName);
+
+            if (!Directory.Exists(uploadFolder))
             {
-                _logger.LogError("Güncelleme bilgileri eksik.");
-                return BadRequest("Güncelleme bilgileri eksik.");
+                Directory.CreateDirectory(uploadFolder);
             }
 
-            var existingMeeting = _meetingService.GetMeetingById(id);
-            if (existingMeeting == null)
+            using (var stream = new FileStream(filePath, FileMode.Create))
             {
-                return NotFound("Toplantı bulunamadı.");
+                await editMeetingDto.DocumentPath.CopyToAsync(stream);
             }
 
-            existingMeeting.Name = editMeetingDto.Name;
-            existingMeeting.StartDate = editMeetingDto.StartDate;
-            existingMeeting.EndDate = editMeetingDto.EndDate;
-            existingMeeting.Description = editMeetingDto.Description;
-
-            if (editMeetingDto.DocumentPath != null && editMeetingDto.DocumentPath.Length > 0)
-            {
-                try
-                {
-                    var uploadFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
-                    var filePath = Path.Combine(uploadFolder, editMeetingDto.DocumentPath.FileName);
-
-                    if (!Directory.Exists(uploadFolder))
-                    {
-                        Directory.CreateDirectory(uploadFolder);
-                    }
-
-                    using (var stream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await editMeetingDto.DocumentPath.CopyToAsync(stream);
-                    }
-
-                    existingMeeting.DocumentPath = $"/uploads/{editMeetingDto.DocumentPath.FileName}";
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogError("Dosya yükleme hatası: {Message}", ex.Message);
-                    return StatusCode(StatusCodes.Status500InternalServerError, "Dosya güncelleme hatası.");
-                }
-            }
-
-            var updatedMeeting = _meetingService.UpdateMeeting(id, existingMeeting);
-            _logger.LogInformation("Güncellenmiş toplantı: {UpdatedMeeting}", updatedMeeting);
-
-            return Ok(updatedMeeting);
+            existingMeeting.DocumentPath = $"http://localhost:5064/uploads/{editMeetingDto.DocumentPath.FileName}";
         }
+        catch (Exception ex)
+        {
+            _logger.LogError("Dosya yükleme hatası: {Message}", ex.Message);
+            return StatusCode(StatusCodes.Status500InternalServerError, "Dosya güncelleme hatası.");
+        }
+    }
+
+    var updatedMeeting = _meetingService.UpdateMeeting(id, existingMeeting);
+    _logger.LogInformation("Güncellenmiş toplantı: {UpdatedMeeting}", updatedMeeting);
+
+    return Ok(updatedMeeting);
+}
+
 
 
 
