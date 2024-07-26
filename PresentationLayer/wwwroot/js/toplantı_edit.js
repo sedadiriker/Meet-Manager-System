@@ -4,7 +4,8 @@ document.addEventListener("DOMContentLoaded", function () {
     // Toplantıyı düzenleme butonlarına tıklama
     document.addEventListener('click', function (event) {
         if (event.target.classList.contains('edit')) {
-            var meetingId = event.target.getAttribute('data-id');
+            var button = event.target.closest('button');
+            var meetingId = button.getAttribute('data-id');
             fetchMeetingDetails(meetingId);
         }
     });
