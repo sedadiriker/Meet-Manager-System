@@ -7,8 +7,14 @@ document.addEventListener('DOMContentLoaded', function () {
     var commonModalBody = document.getElementById('commonModalBody');
     var commonModalConfirmButton = document.getElementById('commonModalConfirmButton');
 
+    document.addEventListener('click', function (event) {
+        if (event.target.classList.contains('delete')) {
+            var meetingId = event.target.getAttribute('data-id');
+            deleteMeeting(meetingId);
+        }
+    });
     // Toplantıyı silme fonksiyonu
-    window.deleteMeeting = function (meetingId) {
+    function deleteMeeting (meetingId) {
         fetch(`http://localhost:5064/api/Meetings/${meetingId}`, {
             method: 'DELETE',
             headers: {

@@ -3,14 +3,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Toplantıyı düzenleme butonlarına tıklama
     document.addEventListener('click', function (event) {
-        if (event.target.closest('.edit')) {
-            var meetingId = event.target.closest('.edit').getAttribute('data-id');
-            console.log("Editing meeting ID:", meetingId); // Debug: meetingId'yi kontrol edin
-            if (meetingId) {
-                fetchMeetingDetails(meetingId);
-            } else {
-                console.error("Meeting ID is null or undefined.");
-            }
+        if (event.target.classList.contains('edit')) {
+            var meetingId = event.target.getAttribute('data-id');
+            fetchMeetingDetails(meetingId);
         }
     });
 
