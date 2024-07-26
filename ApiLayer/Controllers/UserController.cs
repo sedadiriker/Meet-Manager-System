@@ -101,7 +101,7 @@ namespace ApiLayer.Controllers
         // PUT User
         [HttpPut("{id}")]
         [Consumes("multipart/form-data")]
-        [SwaggerOperation(Summary = "Kullanıcıyı güncelle")]
+        [SwaggerOperation(Summary = "Kullanıcıyı güncelleme")]
         [SwaggerResponse(StatusCodes.Status200OK, "Kullanıcı başarılı şekilde güncellendi.")]
         [SwaggerResponse(StatusCodes.Status404NotFound, "Kullanıcı bulunamadı.")]
         public async Task<IActionResult> UpdateUser(int id, [FromForm] UpdateUserDto updatedUserDto, [FromForm] IFormFile profilePicture)

@@ -3,7 +3,14 @@ using Microsoft.AspNetCore.Mvc;
 using EntitiesLayer.Models;
 using BusinessLayer.Interfaces;
 using Microsoft.AspNetCore.Http;
-using System.IO; 
+using System.IO;
+using System.Threading.Tasks;
+using Swashbuckle.AspNetCore.Annotations;
+using EntitiesLayer.DTOs.Meeting;
+using BusinessLayer.Services;
+using System.Security.Cryptography;
+using System;
+using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 
 namespace ApiLayer.Controllers
 {
@@ -41,33 +48,33 @@ namespace ApiLayer.Controllers
 
         // POST: api/meetings
         [HttpPost]
-        public IActionResult CreateMeeting([FromForm] Meeting meeting, IFormFile documentPath)
+        public IActionResult CreateMeeting([FromForm] Meeting meeting, IFormFile meetingDocument)
         {
             if (meeting == null)
             {
                 return BadRequest("Toplantı bilgileri geçersiz.");
             }
 
-            if (documentPath != null && documentPath.Length > 0)
+            if (meetingDocument != null && meetingDocument.Length > 0)
             {
                 // API katmanındaki dizin
-                var apiFilePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads", documentPath.FileName);
+                var apiFilePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads", meetingDocument.FileName);
 
                 // Dosya yükleme API katmanında
                 using (var stream = new FileStream(apiFilePath, FileMode.Create))
                 {
-                    documentPath.CopyTo(stream);
+                    meetingDocument.CopyTo(stream);
                 }
 
                 // Sunum katmanındaki dizin
-                var presentationFilePath = Path.Combine(Directory.GetCurrentDirectory(), "..", "PresentationLayer", "wwwroot", "uploads", documentPath.FileName);
+                var presentationFilePath = Path.Combine(Directory.GetCurrentDirectory(), "..", "PresentationLayer", "wwwroot", "uploads", meetingDocument.FileName);
 
                 // Dosya kopyalama
                 System.IO.File.Copy(apiFilePath, presentationFilePath, overwrite: true);
 
-                
+
                 // Toplantı nesnesine dosya yolunu ekleyin
-                meeting.DocumentPath = $"/uploads/{documentPath.FileName}";
+                meeting.DocumentPath = $"/uploads/{meetingDocument.FileName}";
             }
 
             // Toplantıyı veritabanına kaydedin
@@ -83,11 +90,13 @@ namespace ApiLayer.Controllers
 
         // PUT: api/meetings/{id}
         [HttpPut("{id}")]
-        public IActionResult UpdateMeeting(int id, [FromForm] Meeting meeting)
+        [Consumes("multipart/form-data")]
+        [SwaggerOperation(Summary = "Toplantıyı güncelleme")]
+        public async Task<IActionResult> UpdateMeeting(int id, [FromForm] UpdateMeetingDto updatedMeetingDto, [FromForm] IFormFile updateDocument)
         {
-            if (meeting == null || meeting.Id != id)
+            if (updatedMeetingDto == null)
             {
-                return BadRequest();
+                return BadRequest("Güncellenmiş toplantı bilgileri eksik.");
             }
 
             var existingMeeting = _meetingService.GetMeetingById(id);
@@ -96,9 +105,50 @@ namespace ApiLayer.Controllers
                 return NotFound();
             }
 
-            _meetingService.UpdateMeeting(id, meeting);
+            // DTO verilerini mevcut toplantıya kopyalayın
+            existingMeeting.Name = updatedMeetingDto.Namee ?? existingMeeting.Name;
+            existingMeeting.StartDate = updatedMeetingDto.StartDate;
+            existingMeeting.EndDate = updatedMeetingDto.EndDate;
+            existingMeeting.Description = updatedMeetingDto.Description ?? existingMeeting.Description;
+
+            if (updateDocument != null && updateDocument.Length > 0)
+            {
+                // API katmanındaki dizin
+                var apiUploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
+                Directory.CreateDirectory(apiUploadsFolder); // Ensure directory exists
+
+                var apiFilePath = Path.Combine(apiUploadsFolder, updateDocument.FileName);
+
+                // Dosya yükleme API katmanında
+                using (var stream = new FileStream(apiFilePath, FileMode.Create))
+                {
+                    await updateDocument.CopyToAsync(stream);
+                }
+
+                // Sunum katmanındaki dizin
+                var presentationUploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "..", "PresentationLayer", "wwwroot", "uploads");
+                Directory.CreateDirectory(presentationUploadsFolder); // Ensure directory exists
+
+                var presentationFilePath = Path.Combine(presentationUploadsFolder, updateDocument.FileName);
+
+                // Dosya kopyalama
+                System.IO.File.Copy(apiFilePath, presentationFilePath, overwrite: true);
+
+                // Toplantı nesnesine dosya yolunu ekleyin
+                existingMeeting.DocumentPath = $"/uploads/{updateDocument.FileName}";
+            }
+            else
+            {
+                // Dosya yüklenmemişse, mevcut döküman yolunu koruyun
+                existingMeeting.DocumentPath = existingMeeting.DocumentPath;
+            }
+
+            _meetingService.UpdateMeeting(id, existingMeeting);
             return NoContent();
         }
+
+
+
 
         // DELETE: api/meetings/{id}
         [HttpDelete("{id}")]
@@ -114,12 +164,5 @@ namespace ApiLayer.Controllers
             return NoContent();
         }
 
-        // GET: api/meetings/{id}/report
-        [HttpGet("{id}/report")]
-        public IActionResult GetMeetingReport(int id)
-        {
-            var report = new byte[0]; // Rapor verisini buradan alın
-            return File(report, "application/pdf", "meeting-report.pdf");
-        }
     }
 }

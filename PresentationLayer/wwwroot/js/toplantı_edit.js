@@ -38,12 +38,8 @@ document.addEventListener("DOMContentLoaded", function () {
     // Formu gönderme işlemi
     document.getElementById('editMeetingForm').addEventListener('submit', function (event) {
         event.preventDefault();
-        
+
         var formData = new FormData(this);
-        formData.forEach((value, key) => {
-            console.log(`${key}: ${value}`);
-        });
-        console.log(formData)
         var meetingId = document.getElementById('editMeetingId').value;
 
         fetch(`http://localhost:5064/api/Meetings/${meetingId}`, {
