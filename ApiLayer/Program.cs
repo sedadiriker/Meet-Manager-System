@@ -7,27 +7,32 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.AspNetCore.Identity;
 using DataAccessLayer.Data;
 using BusinessLayer.Services;
 using BusinessLayer.Interfaces;
 using EntitiesLayer.Models;
+using System.Threading.Tasks; 
 
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+
+// Configure CORS
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAll",
+    options.AddPolicy("AllowSpecificOrigins",
         builder =>
         {
-            builder.AllowAnyOrigin()
+            builder.WithOrigins("http://localhost:5284") 
                    .AllowAnyMethod()
-                   .AllowAnyHeader();
+                   .AllowAnyHeader()
+                   .AllowCredentials();
         });
 });
+
 builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new OpenApiInfo
@@ -36,7 +41,7 @@ builder.Services.AddSwaggerGen(options =>
         Version = "v1"
     });
 
-    options.EnableAnnotations(); 
+    options.EnableAnnotations();
 
     options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
@@ -63,11 +68,51 @@ builder.Services.AddSwaggerGen(options =>
         }
     });
 });
+
+// Configure the JWT authentication
+var jwtSettings = builder.Configuration.GetSection("Jwt");
+var key = Encoding.ASCII.GetBytes(jwtSettings["SecretKey"]);
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.Events = new JwtBearerEvents
+    {
+        OnAuthenticationFailed = context =>
+        {
+            context.Response.Headers.Add("Token-Validation-Failed", "true");
+            System.Console.WriteLine($"Authentication Failed: {context.Exception.Message}");
+            return Task.CompletedTask;
+        },
+        OnChallenge = context =>
+        {
+            context.Response.Headers.Add("Token-Validation-Challenge", "true");
+            System.Console.WriteLine("Challenge triggered");
+            return Task.CompletedTask;
+        }
+    };
+    
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = jwtSettings["Issuer"],
+        ValidAudience = jwtSettings["Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(key)
+    };
+});
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<ITokenService, TokenService>(); 
+builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IMeetingService, MeetingService>();
 
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
@@ -94,7 +139,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
-app.UseCors("AllowAll");
+app.UseCors("AllowSpecificOrigins"); 
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();

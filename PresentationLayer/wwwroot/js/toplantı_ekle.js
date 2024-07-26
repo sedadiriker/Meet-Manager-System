@@ -1,25 +1,36 @@
-document.addEventListener("DOMContentLoaded",  () => {
-    const form = document.getElementById('createMeetingForm');
+const form = document.getElementById("createMeetingForm");
 
-    form.addEventListener('submit', (e) => {
-        e.preventDefault()
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
 
-        const formData = new FormData(form);
+  const formData = new FormData(form);
 
-        const URL = "http://localhost:5064/api/Meetings";
+  for (let [key, value] of formData.entries()) {
+    console.log(`${key}: ${value}`);
+  }
 
-        axios.post(URL, formData,{
-            headers: {
-                'Content-Type': 'multipart/form-data' 
+  const URL = "http://localhost:5064/api/Meetings";
 
-            }
-        })
-            .then(response => {
-                window.location.href = '/toplantı_listesi';
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('Bir hata oluştu.');
-            });
+
+  const token = localStorage.getItem("token");
+
+  axios
+    .post(URL, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then((response) => {
+      console.log("Yanıt:", response);
+      setTimeout(() => {
+        window.location.href = "/toplantı_listesi";
+      }, 2000);
+  
+      toastr.info("Toplantı Eklendi!", "Başarılı");
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+      alert("Bir hata oluştu.");
     });
 });

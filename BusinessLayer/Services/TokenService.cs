@@ -10,6 +10,8 @@ namespace BusinessLayer.Services
     public class TokenService : ITokenService
     {
         private readonly string _jwtSecret = "YourStrong@JwtSecretKey1234567890";
+        private readonly string _issuer = "http://localhost:5064"; // Issuer URL
+        private readonly string _audience = "http://localhost:5064"; // Audience URL
 
         public string GenerateToken(User user)
         {
@@ -23,6 +25,8 @@ namespace BusinessLayer.Services
                     new Claim(ClaimTypes.Name, user.Email)
                 }),
                 Expires = DateTime.UtcNow.AddHours(1),
+                Issuer = _issuer,
+                Audience = _audience,
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
 
