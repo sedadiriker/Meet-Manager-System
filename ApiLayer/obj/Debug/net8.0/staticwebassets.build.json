@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "ixtjEZjrOnCxwhvI9CDYSEZTI/BtYx23PxkfVL+1ovE=",
+  "Hash": "xGn/xlVyvGm39Y7Tugt37006QRHudgO7tcq+v8+VVDQ=",
   "Source": "ApiLayer",
   "BasePath": "_content/ApiLayer",
   "Mode": "Default",
@@ -205,6 +205,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/uploads/istockphoto-1055387324-612x612.jpg"
+    },
+    {
+      "Identity": "/Users/sedadiriker/Desktop/MeetManagerSystem/ApiLayer/wwwroot/uploads/Seda Diriker-resume.docx",
+      "SourceId": "ApiLayer",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/sedadiriker/Desktop/MeetManagerSystem/ApiLayer/wwwroot/",
+      "BasePath": "_content/ApiLayer",
+      "RelativePath": "uploads/Seda Diriker-resume.docx",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/uploads/Seda Diriker-resume.docx"
     }
   ]
 }
