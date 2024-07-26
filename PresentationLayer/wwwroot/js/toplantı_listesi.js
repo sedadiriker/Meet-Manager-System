@@ -34,7 +34,12 @@ document.addEventListener("DOMContentLoaded", function () {
         row.appendChild(endDateCell);
 
         var descriptionCell = document.createElement("td");
-        descriptionCell.textContent = meeting.description;
+        descriptionCell.classList.add("text-center");
+        if (meeting.description) {
+          descriptionCell.textContent = meeting.description;
+        } else {
+          descriptionCell.textContent = "-";
+        }
         row.appendChild(descriptionCell);
 
         var documentCell = document.createElement("td");
@@ -45,25 +50,23 @@ document.addEventListener("DOMContentLoaded", function () {
           link.textContent = "Döküman";
           documentCell.appendChild(link);
         } else {
-          documentCell.textContent = "Yok";
+          documentCell.textContent = "-";
         }
         row.appendChild(documentCell);
 
-        var deleteCell = document.createElement("td");
+        var ıslemlercell = document.createElement("td");
         var deleteButton = document.createElement("button");
-        deleteButton.textContent = "X";
-        deleteButton.className = "btn btn-outline-danger btn-sm delete";
+        deleteButton.innerHTML = '<i class="fas fa-trash"></i>'; 
+        deleteButton.className = "btn btn-outline-danger btn-sm delete m-2";
         deleteButton.setAttribute("data-id", meeting.id);
-        deleteCell.appendChild(deleteButton);
-        row.appendChild(deleteCell);
+        ıslemlercell.appendChild(deleteButton);
+        row.appendChild(ıslemlercell);
 
-        var editCell = document.createElement("td");
         var editButton = document.createElement("button");
-        editButton.textContent = "Düzenle";
-        editButton.className = "btn btn-outline-primary btn-sm edit";
+        editButton.innerHTML = '<i class="fas fa-edit"></i>'; 
+        editButton.className = "btn btn-outline-primary btn-sm edit m-2";
         editButton.setAttribute("data-id", meeting.id);
-        editCell.appendChild(editButton);
-        row.appendChild(editCell);
+        ıslemlercell.appendChild(editButton);
 
         tbody.appendChild(row);
       });

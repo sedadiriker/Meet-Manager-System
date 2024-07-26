@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "PHcUTd85UDWTXjN6aIK1OBXQIdn1esp79cHe/IzGK6g=",
+  "Hash": "ixtjEZjrOnCxwhvI9CDYSEZTI/BtYx23PxkfVL+1ovE=",
   "Source": "ApiLayer",
   "BasePath": "_content/ApiLayer",
   "Mode": "Default",
@@ -129,6 +129,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/uploads/images_360.png"
+    },
+    {
+      "Identity": "/Users/sedadiriker/Desktop/MeetManagerSystem/ApiLayer/wwwroot/uploads/indir (1).jpeg",
+      "SourceId": "ApiLayer",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/sedadiriker/Desktop/MeetManagerSystem/ApiLayer/wwwroot/",
+      "BasePath": "_content/ApiLayer",
+      "RelativePath": "uploads/indir (1).jpeg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/uploads/indir (1).jpeg"
     },
     {
       "Identity": "/Users/sedadiriker/Desktop/MeetManagerSystem/ApiLayer/wwwroot/uploads/indir (6).jpeg",

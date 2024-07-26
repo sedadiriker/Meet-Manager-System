@@ -1,14 +1,17 @@
-public class Meeting
+namespace EntitiesLayer.Models
 {
-    public int Id { get; set; }
-    public string? Name { get; set; } // Nullable string
-    public DateTime StartDate { get; set; }
-    public DateTime EndDate { get; set; }
-    public string? Description { get; set; } // Nullable string
-    public string? DocumentPath { get; set; } // Nullable string
-
-    public override string ToString()
+    public class Meeting
     {
-        return $"Id: {Id}, Name: {Name}, StartDate: {StartDate}, EndDate: {EndDate}, Description: {Description}, DocumentPath: {DocumentPath}";
+        public int Id { get; set; }
+        public string? Name { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+        public string? Description { get; set; }
+        public string? DocumentPath { get; set; }
+
+        public override string ToString()
+        {
+            return $"Id: {Id}, Name: {Name}, StartDate: {StartDate}, EndDate: {EndDate}, Description: {Description}, DocumentPath: {DocumentPath}";
+        }
     }
 }
