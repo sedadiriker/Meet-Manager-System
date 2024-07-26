@@ -5,9 +5,9 @@ form.addEventListener("submit", (e) => {
 
   const formData = new FormData(form);
 
-  for (let [key, value] of formData.entries()) {
-    console.log(`${key}: ${value}`);
-  }
+  // for (let [key, value] of formData.entries()) {
+  //   console.log(`${key}: ${value}`);
+  // }
 
   const URL = "http://localhost:5064/api/Meetings";
 
@@ -27,7 +27,7 @@ form.addEventListener("submit", (e) => {
         window.location.href = "/toplantı_listesi";
       }, 2000);
   
-      toastr.info("Toplantı Eklendi!", "Başarılı");
+      toastr["success"]("Toplantı Eklendi!");
     })
     .catch((error) => {
       console.error("Error:", error);

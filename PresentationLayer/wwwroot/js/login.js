@@ -8,23 +8,11 @@ const login = async (email, password) => {
       window.location.href = "/anasayfa";
     }, 2000);
 
-    toastr.info("Giriş başarılı!", "Başarılı");
+    toastr["success"]("Giriş başarılı!");
   } catch (error) {
     console.log(error);
+    toastr["error"]("Giriş başarısız!");
 
-    if (error.response && error.response.data) {
-      const { message } = error.response.data;
-
-      if (message.includes("email") || message.includes("parola")) {
-        toastr.error("E-posta veya şifre hatalı. Lütfen tekrar deneyin.", "Hata");
-      } else if (message.includes("user")) {
-        toastr.error("Kullanıcı bulunamadı. Lütfen bilgilerinizi kontrol edin.", "Hata");
-      } else {
-        toastr.error("Giriş sırasında bir hata oluştu. Lütfen tekrar deneyin.", "Hata");
-      }
-    } else {
-      toastr.error("Giriş sırasında bir hata oluştu. Lütfen tekrar deneyin.", "Hata");
-    }
   }
 };
 
