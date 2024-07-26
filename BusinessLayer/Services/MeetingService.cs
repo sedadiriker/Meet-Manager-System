@@ -32,7 +32,7 @@ namespace BusinessLayer.Services
             return meeting;
         }
 
-        public void UpdateMeeting(int id, Meeting meeting)
+        public Meeting UpdateMeeting(int id, Meeting meeting)
         {
             var existingMeeting = _context.Meetings.Find(id);
             if (existingMeeting != null)
@@ -45,8 +45,13 @@ namespace BusinessLayer.Services
 
                 _context.Meetings.Update(existingMeeting);
                 _context.SaveChanges();
+
+                return existingMeeting; // Güncellenmiş toplantıyı döndür
             }
+
+            return null; // Toplantı bulunamadıysa null döndür
         }
+
 
         public void DeleteMeeting(int id)
         {

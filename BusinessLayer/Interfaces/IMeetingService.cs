@@ -8,7 +8,7 @@ namespace BusinessLayer.Interfaces
         IEnumerable<Meeting> GetAllMeetings();
         Meeting GetMeetingById(int id);
         Meeting CreateMeeting(Meeting meeting);
-        void UpdateMeeting(int id, Meeting meeting);
+        Meeting UpdateMeeting(int id, Meeting meeting);
         void DeleteMeeting(int id);
     }
 }

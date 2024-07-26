@@ -25,6 +25,14 @@
       "PackagePath": "staticwebassets/uploads/images_360.png"
     },
     {
+      "Id": "/Users/sedadiriker/Desktop/MeetManagerSystem/ApiLayer/wwwroot/uploads/indir (6).jpeg",
+      "PackagePath": "staticwebassets/uploads/indir (6).jpeg"
+    },
+    {
+      "Id": "/Users/sedadiriker/Desktop/MeetManagerSystem/ApiLayer/wwwroot/uploads/indir.jpeg",
+      "PackagePath": "staticwebassets/uploads/indir.jpeg"
+    },
+    {
       "Id": "/Users/sedadiriker/Desktop/MeetManagerSystem/ApiLayer/wwwroot/uploads/istockphoto-1055387324-612x612.jpg",
       "PackagePath": "staticwebassets/uploads/istockphoto-1055387324-612x612.jpg"
     },
