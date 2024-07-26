@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using EntitiesLayer.Models;
 using BusinessLayer.Interfaces;
 using Microsoft.AspNetCore.Http;
-using System.IO;
+using System.IO; 
 
 namespace ApiLayer.Controllers
 {
@@ -50,15 +50,22 @@ namespace ApiLayer.Controllers
 
             if (documentPath != null && documentPath.Length > 0)
             {
-                // Dosya yükleme işlemi
-                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads", documentPath.FileName);
+                // API katmanındaki dizin
+                var apiFilePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads", documentPath.FileName);
 
-                // Dosya yükleme
-                using (var stream = new FileStream(filePath, FileMode.Create))
+                // Dosya yükleme API katmanında
+                using (var stream = new FileStream(apiFilePath, FileMode.Create))
                 {
                     documentPath.CopyTo(stream);
                 }
 
+                // Sunum katmanındaki dizin
+                var presentationFilePath = Path.Combine(Directory.GetCurrentDirectory(), "..", "PresentationLayer", "wwwroot", "uploads", documentPath.FileName);
+
+                // Dosya kopyalama
+                System.IO.File.Copy(apiFilePath, presentationFilePath, overwrite: true);
+
+                
                 // Toplantı nesnesine dosya yolunu ekleyin
                 meeting.DocumentPath = $"/uploads/{documentPath.FileName}";
             }

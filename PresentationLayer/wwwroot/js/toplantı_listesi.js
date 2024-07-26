@@ -25,11 +25,11 @@ document.addEventListener('DOMContentLoaded', function () {
             row.appendChild(nameCell);
 
             var startDateCell = document.createElement('td');
-            startDateCell.textContent = new Date(meeting.startDate).toLocaleString();
+            startDateCell.textContent = formatDate(meeting.startDate);
             row.appendChild(startDateCell);
 
             var endDateCell = document.createElement('td');
-            endDateCell.textContent = new Date(meeting.endDate).toLocaleString();
+            endDateCell.textContent = formatDate(meeting.endDate);
             row.appendChild(endDateCell);
 
             var descriptionCell = document.createElement('td');
@@ -54,4 +54,11 @@ document.addEventListener('DOMContentLoaded', function () {
     .catch(error => {
         console.error('Veriler alınırken bir hata oluştu:', error);
     });
+
+    function formatDate(dateString) {
+        var date = new Date(dateString);
+        var hours = date.getHours().toString().padStart(2, '0');
+        var minutes = date.getMinutes().toString().padStart(2, '0');
+        return `${hours}:${minutes}`;
+    }
 });
