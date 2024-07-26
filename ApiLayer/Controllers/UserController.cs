@@ -127,7 +127,7 @@ namespace ApiLayer.Controllers
             if (profilePicture != null && profilePicture.Length > 0)
             {
                 var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
-                Directory.CreateDirectory(uploadsFolder); // Ensure directory exists
+                Directory.CreateDirectory(uploadsFolder); 
 
                 var profilePicturePath = Path.Combine(uploadsFolder, profilePicture.FileName);
                 using (var stream = new FileStream(profilePicturePath, FileMode.Create))

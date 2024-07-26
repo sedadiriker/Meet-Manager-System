@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "Fu9u1guiMakqrdDbgU54bTXTY3THl+iFAchbnyHzM4s=",
+  "Hash": "2HMm3qSEzH/tAkHGn81dELf+EzcWadL3yNtRnH0EqPM=",
   "Source": "ApiLayer",
   "BasePath": "_content/ApiLayer",
   "Mode": "Default",
@@ -72,6 +72,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/uploads/Ekran Resmi 2024-02-18 16.22.55.png"
+    },
+    {
+      "Identity": "/Users/sedadiriker/Desktop/MeetManagerSystem/ApiLayer/wwwroot/uploads/Ekran Resmi 2024-02-21 22.46.51.png",
+      "SourceId": "ApiLayer",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/sedadiriker/Desktop/MeetManagerSystem/ApiLayer/wwwroot/",
+      "BasePath": "_content/ApiLayer",
+      "RelativePath": "uploads/Ekran Resmi 2024-02-21 22.46.51.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/uploads/Ekran Resmi 2024-02-21 22.46.51.png"
     },
     {
       "Identity": "/Users/sedadiriker/Desktop/MeetManagerSystem/ApiLayer/wwwroot/uploads/Ekran Resmi 2024-03-01 20.20.54.png",
