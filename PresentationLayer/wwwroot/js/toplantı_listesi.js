@@ -56,14 +56,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
         var ıslemlercell = document.createElement("td");
         var deleteButton = document.createElement("button");
-        deleteButton.innerHTML = '<i class="fas fa-trash"></i>'; 
-        deleteButton.className = "btn btn-outline-danger btn-sm delete m-2";
+        deleteButton.innerHTML = '<i class="fas fa-trash delete"></i>'; 
+        deleteButton.className = "btn btn-outline-danger btn-sm m-2 delete";
         deleteButton.setAttribute("data-id", meeting.id);
         ıslemlercell.appendChild(deleteButton);
         row.appendChild(ıslemlercell);
 
         var editButton = document.createElement("button");
-        editButton.innerHTML = '<i class="fas fa-edit"></i>'; 
+        editButton.innerHTML = '<i class="fas fa-edit edit"></i>'; 
         editButton.className = "btn btn-outline-primary btn-sm edit m-2";
         editButton.setAttribute("data-id", meeting.id);
         ıslemlercell.appendChild(editButton);
