@@ -1,13 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "GUugFl1Fq/M=",
+  "dgSpecHash": "MrcGzOjd1Es=",
   "success": true,
   "projectFilePath": "/Users/sedadiriker/Desktop/MeetManagerSystem/PresentationLayer/PresentationLayer.csproj",
   "expectedPackageFiles": [
     "/Users/sedadiriker/.nuget/packages/azure.core/1.35.0/azure.core.1.35.0.nupkg.sha512",
     "/Users/sedadiriker/.nuget/packages/azure.identity/1.10.3/azure.identity.1.10.3.nupkg.sha512",
     "/Users/sedadiriker/.nuget/packages/bouncycastle.cryptography/2.4.0/bouncycastle.cryptography.2.4.0.nupkg.sha512",
-    "/Users/sedadiriker/.nuget/packages/devexpress.data/24.1.5-pre-24203/devexpress.data.24.1.5-pre-24203.nupkg.sha512",
     "/Users/sedadiriker/.nuget/packages/mailkit/4.7.1.1/mailkit.4.7.1.1.nupkg.sha512",
     "/Users/sedadiriker/.nuget/packages/microsoft.aspnetcore.antiforgery/2.2.0/microsoft.aspnetcore.antiforgery.2.2.0.nupkg.sha512",
     "/Users/sedadiriker/.nuget/packages/microsoft.aspnetcore.authentication/2.2.0/microsoft.aspnetcore.authentication.2.2.0.nupkg.sha512",
