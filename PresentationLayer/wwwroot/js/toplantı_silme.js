@@ -8,11 +8,28 @@ document.addEventListener('DOMContentLoaded', function () {
 
     document.addEventListener('click', function (event) {
         if (event.target.classList.contains('delete')) {
-            var meetingId = event.target.getAttribute('data-id');
-            deleteMeeting(meetingId);
+            var button = event.target.closest('button');
+            var meetingId = button.getAttribute('data-id'); // 'target' kullanımı yanlış
+            console.log(meetingId);
+            deleteMeetingId = meetingId; // Burada deleteMeetingId'yi ayarlıyoruz
+
+            // Modal içeriğini ayarla
+            commonModalTitle.textContent = 'Toplantı Silme';
+            commonModalBody.textContent = 'Bu toplantıyı silmek istediğinizden emin misiniz?';
+            commonModalConfirmButton.textContent = 'Sil';
+
+            commonModal.show(); // Modal'ı göster
         }
     });
-    function deleteMeeting (meetingId) {
+
+    commonModalConfirmButton.addEventListener('click', function () {
+        if (deleteMeetingId !== null) {
+            deleteMeeting(deleteMeetingId); // deleteMeetingId'yi kullanarak toplantıyı sil
+            commonModal.hide(); // Modal'ı gizle
+        }
+    });
+
+    function deleteMeeting(meetingId) {
         fetch(`http://localhost:5064/api/Meetings/${meetingId}`, {
             method: 'DELETE',
             headers: {
@@ -21,8 +38,10 @@ document.addEventListener('DOMContentLoaded', function () {
         })
         .then(response => {
             if (response.ok) {
+                setTimeout(() => {
+                    location.reload(); 
+                }, 2000);
                 toastr["success"]('Toplantı başarıyla silindi.');
-                location.reload(); 
             } else {
                 throw new Error('Sunucudan hata yanıtı alındı: ' + response.statusText);
             }
@@ -31,23 +50,5 @@ document.addEventListener('DOMContentLoaded', function () {
             console.error('Silme işlemi sırasında bir hata oluştu:', error);
             toastr["error"]('Silme işlemi sırasında bir hata oluştu.');
         });
-    };
-
-    commonModalConfirmButton.addEventListener('click', function () {
-        if (deleteMeetingId !== null) {
-            window.deleteMeeting(deleteMeetingId); 
-            commonModal.hide(); 
-        }
-    });
-
-    document.addEventListener('click', function (event) {
-        if (event.target.classList.contains('delete')) {
-            deleteMeetingId = event.target.getAttribute('data-id'); 
-            commonModalTitle.textContent = 'Toplantı Silme';
-            commonModalBody.textContent = 'Bu toplantıyı silmek istediğinizden emin misiniz?';
-            commonModalConfirmButton.textContent = 'Sil';
-
-            commonModal.show(); 
-        }
-    });
+    }
 });

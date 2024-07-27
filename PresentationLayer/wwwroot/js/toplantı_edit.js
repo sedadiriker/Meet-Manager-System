@@ -20,12 +20,10 @@ document.addEventListener("DOMContentLoaded", function () {
         })
         .then(response => response.json())
         .then(meeting => {
-            // console.log(meeting); 
-
             document.getElementById('editMeetingId').value = meeting.id || '';
             document.getElementById('editName').value = meeting.name || '';
-            document.getElementById('editStartDate').value = meeting.startDate || '';
-            document.getElementById('editEndDate').value = meeting.endDate || '';
+            document.getElementById('editStartDate').value = meeting.startDate ? new Date(meeting.startDate).toISOString().slice(0, 16) : '';
+            document.getElementById('editEndDate').value = meeting.endDate ? new Date(meeting.endDate).toISOString().slice(0, 16) : '';
             document.getElementById('editDescription').value = meeting.description || '';
             document.getElementById('currentDocument').textContent = meeting.documentPath ? `Mevcut döküman: ${meeting.documentPath}` : "Mevcut döküman yok";
 
@@ -53,8 +51,10 @@ document.addEventListener("DOMContentLoaded", function () {
         })
         .then(response => {
             if (response.ok) {
+                setTimeout(() => {
+                    location.reload();
+                }, 2000);
                 toastr["success"]('Toplantı başarıyla güncellendi.');
-                location.reload();
             } else {
                 throw new Error('Sunucudan hata yanıtı alındı: ' + response.statusText);
             }
