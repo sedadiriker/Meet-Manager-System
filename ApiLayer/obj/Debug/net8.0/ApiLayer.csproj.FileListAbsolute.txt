@@ -1,3 +1,11 @@
+/Users/sedadiriker/Desktop/MeetManagerSystem/ApiLayer/obj/Debug/net8.0/ApiLayer.csproj.AssemblyReference.cache
+/Users/sedadiriker/Desktop/MeetManagerSystem/ApiLayer/obj/Debug/net8.0/ApiLayer.GeneratedMSBuildEditorConfig.editorconfig
+/Users/sedadiriker/Desktop/MeetManagerSystem/ApiLayer/obj/Debug/net8.0/ApiLayer.AssemblyInfoInputs.cache
+/Users/sedadiriker/Desktop/MeetManagerSystem/ApiLayer/obj/Debug/net8.0/ApiLayer.AssemblyInfo.cs
+/Users/sedadiriker/Desktop/MeetManagerSystem/ApiLayer/obj/Debug/net8.0/ApiLayer.csproj.CoreCompileInputs.cache
+/Users/sedadiriker/Desktop/MeetManagerSystem/ApiLayer/obj/Debug/net8.0/ApiLayer.MvcApplicationPartsAssemblyInfo.cs
+/Users/sedadiriker/Desktop/MeetManagerSystem/ApiLayer/obj/Debug/net8.0/ApiLayer.MvcApplicationPartsAssemblyInfo.cache
+/Users/sedadiriker/Desktop/MeetManagerSystem/ApiLayer/obj/Debug/net8.0/ApiLayer.sourcelink.json
 /Users/sedadiriker/Desktop/MeetManagerSystem/ApiLayer/bin/Debug/net8.0/appsettings.Development.json
 /Users/sedadiriker/Desktop/MeetManagerSystem/ApiLayer/bin/Debug/net8.0/appsettings.json
 /Users/sedadiriker/Desktop/MeetManagerSystem/ApiLayer/bin/Debug/net8.0/ApiLayer.staticwebassets.runtime.json
@@ -447,14 +455,6 @@
 /Users/sedadiriker/Desktop/MeetManagerSystem/ApiLayer/bin/Debug/net8.0/DataAccessLayer.pdb
 /Users/sedadiriker/Desktop/MeetManagerSystem/ApiLayer/bin/Debug/net8.0/EntitiesLayer.pdb
 /Users/sedadiriker/Desktop/MeetManagerSystem/ApiLayer/bin/Debug/net8.0/BusinessLayer.pdb
-/Users/sedadiriker/Desktop/MeetManagerSystem/ApiLayer/obj/Debug/net8.0/ApiLayer.csproj.AssemblyReference.cache
-/Users/sedadiriker/Desktop/MeetManagerSystem/ApiLayer/obj/Debug/net8.0/ApiLayer.GeneratedMSBuildEditorConfig.editorconfig
-/Users/sedadiriker/Desktop/MeetManagerSystem/ApiLayer/obj/Debug/net8.0/ApiLayer.AssemblyInfoInputs.cache
-/Users/sedadiriker/Desktop/MeetManagerSystem/ApiLayer/obj/Debug/net8.0/ApiLayer.AssemblyInfo.cs
-/Users/sedadiriker/Desktop/MeetManagerSystem/ApiLayer/obj/Debug/net8.0/ApiLayer.csproj.CoreCompileInputs.cache
-/Users/sedadiriker/Desktop/MeetManagerSystem/ApiLayer/obj/Debug/net8.0/ApiLayer.MvcApplicationPartsAssemblyInfo.cs
-/Users/sedadiriker/Desktop/MeetManagerSystem/ApiLayer/obj/Debug/net8.0/ApiLayer.MvcApplicationPartsAssemblyInfo.cache
-/Users/sedadiriker/Desktop/MeetManagerSystem/ApiLayer/obj/Debug/net8.0/ApiLayer.sourcelink.json
 /Users/sedadiriker/Desktop/MeetManagerSystem/ApiLayer/obj/Debug/net8.0/staticwebassets.build.json
 /Users/sedadiriker/Desktop/MeetManagerSystem/ApiLayer/obj/Debug/net8.0/staticwebassets.development.json
 /Users/sedadiriker/Desktop/MeetManagerSystem/ApiLayer/obj/Debug/net8.0/staticwebassets/msbuild.ApiLayer.Microsoft.AspNetCore.StaticWebAssets.props

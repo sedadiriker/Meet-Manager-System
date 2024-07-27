@@ -67,6 +67,9 @@ builder.Services.AddSwaggerGen(options =>
             new string[] {}
         }
     });
+
+    // Add the custom operation filter for file uploads
+    options.OperationFilter<FileUploadOperation>();
 });
 
 // Configure the JWT authentication
@@ -144,3 +147,4 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();
+

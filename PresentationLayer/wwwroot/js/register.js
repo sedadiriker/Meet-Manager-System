@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (response.status === 200) {
         setTimeout(() => {
           window.location.href = "/";
-        }, 2000);
+        }, 1000);
     
         toastr["success"]("Kayıt İşlemi Başarılı!");
       } else {

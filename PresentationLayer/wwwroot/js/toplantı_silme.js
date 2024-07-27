@@ -1,7 +1,8 @@
 document.addEventListener('DOMContentLoaded', function () {
-    var token = localStorage.getItem('token'); 
-    var deleteMeetingId = null; 
-    var commonModal = new bootstrap.Modal(document.getElementById('commonModal')); 
+    var token = localStorage.getItem('token');
+    var userId = JSON.parse(localStorage.getItem('user'))?.id; // Kullanıcı ID'sini al
+    var deleteMeetingId = null;
+    var commonModal = new bootstrap.Modal(document.getElementById('commonModal'));
     var commonModalTitle = document.getElementById('commonModalTitle');
     var commonModalBody = document.getElementById('commonModalBody');
     var commonModalConfirmButton = document.getElementById('commonModalConfirmButton');
@@ -24,10 +25,36 @@ document.addEventListener('DOMContentLoaded', function () {
 
     commonModalConfirmButton.addEventListener('click', function () {
         if (deleteMeetingId !== null) {
-            deleteMeeting(deleteMeetingId); // deleteMeetingId'yi kullanarak toplantıyı sil
-            commonModal.hide(); // Modal'ı gizle
+            // Toplantı bilgilerini al ve kullanıcı ID'sini doğrula
+            verifyMeetingOwnership(deleteMeetingId, userId).then(isOwner => {
+                if (isOwner) {
+                    deleteMeeting(deleteMeetingId); // deleteMeetingId'yi kullanarak toplantıyı sil
+                } else {
+                    toastr["error"]('Bu toplantıyı silme izniniz yok.');
+                }
+                commonModal.hide(); // Modal'ı gizle
+            });
         }
     });
+
+    function verifyMeetingOwnership(meetingId, userId) {
+        return fetch(`http://localhost:5064/api/Meetings/${meetingId}`, {
+            method: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + token
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Toplantının sahibi ile mevcut kullanıcının ID'sini karşılaştır
+            return data.userId === userId;
+        })
+        .catch(error => {
+            console.error('Toplantı bilgilerini alırken bir hata oluştu:', error);
+            toastr["error"]('Toplantı bilgileri alınırken bir hata oluştu.');
+            return false;
+        });
+    }
 
     function deleteMeeting(meetingId) {
         fetch(`http://localhost:5064/api/Meetings/${meetingId}`, {

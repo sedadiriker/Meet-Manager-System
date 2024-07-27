@@ -18,23 +18,38 @@ const form = document.getElementById("createMeetingForm");
 form.addEventListener("submit", (e) => {
   e.preventDefault();
 
-const formData = new FormData(form);
+  const name = document.getElementById("Name").value;
+  const startDate = document.getElementById("StartDate").value;
+  const endDate = document.getElementById("EndDate").value;
+  const description = document.getElementById("Description").value;
+  const documentPath = document.getElementById("DocumentPath").files[0]; 
 
+  const token = localStorage.getItem("token");
+  const userString = localStorage.getItem("user");
+
+
+  const user = JSON.parse(userString);
+
+  const formData = new FormData();
+  formData.append("Name", name);
+  formData.append("StartDate", startDate);
+  formData.append("EndDate", endDate);
+  formData.append("Description", description);
+  formData.append("DocumentPath", documentPath); // Dosyayı ekle
+  formData.append("UserId", user.id);
+
+  // console.log("FormData içeriği:");
   // for (let [key, value] of formData.entries()) {
   //   console.log(`${key}: ${value}`);
   // }
 
   const URL = "http://localhost:5064/api/Meetings";
 
-  
-
-  const token = localStorage.getItem("token");
-
   axios
     .post(URL, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
-        Authorization: `Bearer ${token}`,
+        "Authorization": `Bearer ${token}`
       },
     })
     .then((response) => {
@@ -46,7 +61,7 @@ const formData = new FormData(form);
       toastr["success"]("Toplantı Eklendi!");
     })
     .catch((error) => {
-      console.error("Error:", error);
+      console.error("Error:", error.response ? error.response.data : error);
       toastr["error"]('Bir hata oluştu');
     });
 });

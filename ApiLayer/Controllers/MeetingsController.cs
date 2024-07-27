@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Swashbuckle.AspNetCore.Annotations;
 using EntitiesLayer.DTOs.Meeting;
 using Microsoft.Extensions.Logging;
+using System.Linq;
 using System;
 
 namespace ApiLayer.Controllers
@@ -19,14 +20,15 @@ namespace ApiLayer.Controllers
     {
         private readonly IMeetingService _meetingService;
         private readonly IEmailService _emailService;
-
         private readonly ILogger<MeetingsController> _logger;
+        private readonly IUserService _userService; // Eklenen servis
 
-        public MeetingsController(IMeetingService meetingService, IEmailService emailService, ILogger<MeetingsController> logger)
+        public MeetingsController(IMeetingService meetingService, IEmailService emailService, ILogger<MeetingsController> logger, IUserService userService)
         {
             _meetingService = meetingService;
             _logger = logger;
             _emailService = emailService;
+            _userService = userService; // Kullanıcı servisini ekleyin
         }
 
         // GET: api/meetings
@@ -51,7 +53,6 @@ namespace ApiLayer.Controllers
             return Ok(meeting);
         }
 
-        // POST: api/meetings
         [HttpPost]
         public async Task<IActionResult> CreateMeeting([FromForm] Meeting meeting, IFormFile documentPath)
         {
@@ -59,6 +60,15 @@ namespace ApiLayer.Controllers
             {
                 return BadRequest("Toplantı bilgileri geçersiz.");
             }
+            _logger.LogInformation("CreateMeeting method called with meeting: {@Meeting}", meeting);
+
+            // var userIdClaim = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
+            // if (userIdClaim == null || !int.TryParse(userIdClaim, out int userId))
+            // {
+            //     return Unauthorized("Kullanıcı kimliği geçersiz.");
+            // }
+
+            // meeting.UserId = userId;
 
             if (documentPath != null && documentPath.Length > 0)
             {
@@ -74,7 +84,7 @@ namespace ApiLayer.Controllers
 
                     using (var stream = new FileStream(filePath, FileMode.Create))
                     {
-                        documentPath.CopyTo(stream);
+                        await documentPath.CopyToAsync(stream);
                     }
 
                     meeting.DocumentPath = $"/uploads/{documentPath.FileName}";
@@ -92,22 +102,11 @@ namespace ApiLayer.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "Toplantı oluşturulamadı.");
             }
 
-            // Bilgilendirme e-postası gönder
-            await _emailService.SendMeetingNotificationEmailAsync(
-                "attendee@example.com", // E-posta adresi, dinamik olmalı
-                createdMeeting.Name, // Toplantı adı
-                createdMeeting.StartDate, // Başlangıç tarihi
-                createdMeeting.EndDate, // Bitiş tarihi
-                createdMeeting.Description); // Açıklama
-
             return CreatedAtAction(nameof(GetMeeting), new { id = createdMeeting.Id }, createdMeeting);
         }
 
 
-
-
         [HttpPut("{id}")]
-        [SwaggerOperation(Summary = "Toplantıyı güncelle")]
         public async Task<IActionResult> UpdateMeeting(int id, [FromForm] EditMeetingDto editMeetingDto)
         {
             if (editMeetingDto == null)
@@ -120,6 +119,12 @@ namespace ApiLayer.Controllers
             if (existingMeeting == null)
             {
                 return NotFound("Toplantı bulunamadı.");
+            }
+
+            var userId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
+            if (userId == null || existingMeeting.UserId != int.Parse(userId))
+            {
+                return Unauthorized("Yetkisiz erişim.");
             }
 
             existingMeeting.Name = editMeetingDto.Name;
@@ -159,12 +164,7 @@ namespace ApiLayer.Controllers
             return Ok(updatedMeeting);
         }
 
-
-
-
-        // DELETE: api/meetings/{id}
         [HttpDelete("{id}")]
-        [SwaggerOperation(Summary = "Toplantıyı sil")]
         public IActionResult DeleteMeeting(int id)
         {
             var existingMeeting = _meetingService.GetMeetingById(id);
@@ -173,6 +173,12 @@ namespace ApiLayer.Controllers
                 _logger.LogError($"Toplantı bulunamadı: {id}");
                 return NotFound("Toplantı bulunamadı.");
             }
+
+            // var userId = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
+            // if (userId == null || existingMeeting.UserId != int.Parse(userId))
+            // {
+            //     return Unauthorized("Yetkisiz erişim.");
+            // }
 
             _meetingService.DeleteMeeting(id);
             _logger.LogInformation($"Toplantı başarıyla silindi: {id}");
