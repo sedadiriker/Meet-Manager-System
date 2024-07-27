@@ -2,12 +2,14 @@ document.addEventListener("DOMContentLoaded", function () {
   var now = new Date();
   var today = now.toISOString().split("T")[0] + 'T' + now.toTimeString().split(" ")[0];
 
-  document.getElementById("StartDate").setAttribute("min", today);
-  document.getElementById("EndDate").setAttribute("min", today);
+  var minDate = today.substring(0, 16); 
+
+  document.getElementById("StartDate").setAttribute("min", minDate);
+  document.getElementById("EndDate").setAttribute("min", minDate);
 
   document.getElementById("StartDate").addEventListener("change", function () {
-      var startDate = document.getElementById("StartDate").value;
-      document.getElementById("EndDate").setAttribute("min", startDate);
+    var startDate = document.getElementById("StartDate").value;
+    document.getElementById("EndDate").setAttribute("min", startDate);
   });
 });
 
@@ -45,6 +47,6 @@ const formData = new FormData(form);
     })
     .catch((error) => {
       console.error("Error:", error);
-      alert("Bir hata oluştu.");
+      toastr["error"]('Bir hata oluştu');
     });
 });

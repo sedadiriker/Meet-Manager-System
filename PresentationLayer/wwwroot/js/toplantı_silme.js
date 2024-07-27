@@ -1,4 +1,3 @@
-//toplantı_silme.js
 document.addEventListener('DOMContentLoaded', function () {
     var token = localStorage.getItem('token'); 
     var deleteMeetingId = null; 
@@ -13,7 +12,6 @@ document.addEventListener('DOMContentLoaded', function () {
             deleteMeeting(meetingId);
         }
     });
-    // Toplantıyı silme fonksiyonu
     function deleteMeeting (meetingId) {
         fetch(`http://localhost:5064/api/Meetings/${meetingId}`, {
             method: 'DELETE',
@@ -23,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function () {
         })
         .then(response => {
             if (response.ok) {
-                alert('Toplantı başarıyla silindi.');
+                toastr["success"]('Toplantı başarıyla silindi.');
                 location.reload(); 
             } else {
                 throw new Error('Sunucudan hata yanıtı alındı: ' + response.statusText);
@@ -31,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function () {
         })
         .catch(error => {
             console.error('Silme işlemi sırasında bir hata oluştu:', error);
-            alert('Silme işlemi sırasında bir hata oluştu.');
+            toastr["error"]('Silme işlemi sırasında bir hata oluştu.');
         });
     };
 
