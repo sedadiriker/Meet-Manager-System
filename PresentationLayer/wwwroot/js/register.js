@@ -21,13 +21,16 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       if (response.status === 200) {
-        alert("Registration successful");
-        window.location.href = "/";
+        setTimeout(() => {
+          window.location.href = "/";
+        }, 2000);
+    
+        toastr["success"]("Kayıt İşlemi Başarılı!");
       } else {
-        throw new Error("Registration failed");
+        throw new Error("Kayıt İşlemi Başarısız");
       }
     } catch (error) {
-      alert("Registration failed");
+      toastr["error"]("Kayıt İşlemi Başarısız");
       console.error("Error:", error);
     }
   });
