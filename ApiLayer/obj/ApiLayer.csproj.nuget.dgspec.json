@@ -20,7 +20,8 @@
           "net8.0"
         ],
         "sources": {
-          "https://api.nuget.org/v3/index.json": {}
+          "https://api.nuget.org/v3/index.json": {},
+          "https://nuget.devexpress.com/nuget/": {}
         },
         "frameworks": {
           "net8.0": {
@@ -53,6 +54,10 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "DevExpress.Data": {
+              "target": "Package",
+              "version": "[24.1.5-pre-24203, )"
+            },
             "MailKit": {
               "target": "Package",
               "version": "[4.7.1.1, )"
@@ -163,7 +168,8 @@
           "net8.0"
         ],
         "sources": {
-          "https://api.nuget.org/v3/index.json": {}
+          "https://api.nuget.org/v3/index.json": {},
+          "https://nuget.devexpress.com/nuget/": {}
         },
         "frameworks": {
           "net8.0": {
@@ -238,7 +244,8 @@
           "net8.0"
         ],
         "sources": {
-          "https://api.nuget.org/v3/index.json": {}
+          "https://api.nuget.org/v3/index.json": {},
+          "https://nuget.devexpress.com/nuget/": {}
         },
         "frameworks": {
           "net8.0": {
@@ -316,7 +323,8 @@
           "net8.0"
         ],
         "sources": {
-          "https://api.nuget.org/v3/index.json": {}
+          "https://api.nuget.org/v3/index.json": {},
+          "https://nuget.devexpress.com/nuget/": {}
         },
         "frameworks": {
           "net8.0": {

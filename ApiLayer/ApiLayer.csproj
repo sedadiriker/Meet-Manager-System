@@ -10,6 +10,7 @@
   </ItemGroup>
   
   <ItemGroup>
+    <PackageReference Include="DevExpress.Data" Version="24.1.5-pre-24203" />
     <PackageReference Include="MailKit" Version="4.7.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.7" />
     <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />

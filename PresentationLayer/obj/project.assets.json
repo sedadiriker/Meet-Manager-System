@@ -59,6 +59,22 @@
           }
         }
       },
+      "DevExpress.Data/24.1.5-pre-24203": {
+        "type": "package",
+        "dependencies": {
+          "System.Drawing.Common": "4.7.2"
+        },
+        "compile": {
+          "lib/net6.0/DevExpress.Data.v24.1.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/DevExpress.Data.v24.1.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "MailKit/4.7.1.1": {
         "type": "package",
         "dependencies": {
@@ -3959,6 +3975,7 @@
         "dependencies": {
           "BusinessLayer": "1.0.0",
           "DataAccessLayer": "1.0.0",
+          "DevExpress.Data": "24.1.5-pre-24203",
           "EntitiesLayer": "1.0.0",
           "MailKit": "4.7.1.1",
           "Microsoft.AspNetCore.Authentication.JwtBearer": "8.0.7",
@@ -4094,6 +4111,24 @@
         "lib/netstandard2.0/BouncyCastle.Cryptography.dll",
         "lib/netstandard2.0/BouncyCastle.Cryptography.xml",
         "packageIcon.png"
+      ]
+    },
+    "DevExpress.Data/24.1.5-pre-24203": {
+      "sha512": "gPVGCqC4eCJnlb3bIP3TuqQfHjoAupwu/zs0eUagmUvzCq3LEMFOtm4GDXJ909N+/6MT6Pn3RAcZrOIP3zEnGQ==",
+      "type": "package",
+      "path": "devexpress.data/24.1.5-pre-24203",
+      "hasTools": true,
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "analyzers/dotnet/cs/DevExpress.Generator.dll",
+        "devexpress.data.24.1.5-pre-24203.nupkg.sha512",
+        "devexpress.data.nuspec",
+        "lib/net452/DevExpress.Data.v24.1.dll",
+        "lib/net452/DevExpress.Data.v24.1.xml",
+        "lib/net6.0/DevExpress.Data.v24.1.dll",
+        "lib/net6.0/DevExpress.Data.v24.1.xml",
+        "tools/VisualStudioToolsManifest.xml"
       ]
     },
     "MailKit/4.7.1.1": {
@@ -11138,7 +11173,8 @@
         "net8.0"
       ],
       "sources": {
-        "https://api.nuget.org/v3/index.json": {}
+        "https://api.nuget.org/v3/index.json": {},
+        "https://nuget.devexpress.com/nuget/": {}
       },
       "frameworks": {
         "net8.0": {

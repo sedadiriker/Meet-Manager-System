@@ -20,7 +20,8 @@
           "net8.0"
         ],
         "sources": {
-          "https://api.nuget.org/v3/index.json": {}
+          "https://api.nuget.org/v3/index.json": {},
+          "https://nuget.devexpress.com/nuget/": {}
         },
         "frameworks": {
           "net8.0": {
@@ -95,7 +96,8 @@
           "net8.0"
         ],
         "sources": {
-          "https://api.nuget.org/v3/index.json": {}
+          "https://api.nuget.org/v3/index.json": {},
+          "https://nuget.devexpress.com/nuget/": {}
         },
         "frameworks": {
           "net8.0": {
@@ -173,7 +175,8 @@
           "net8.0"
         ],
         "sources": {
-          "https://api.nuget.org/v3/index.json": {}
+          "https://api.nuget.org/v3/index.json": {},
+          "https://nuget.devexpress.com/nuget/": {}
         },
         "frameworks": {
           "net8.0": {
