@@ -22,6 +22,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         var nameCell = document.createElement("td");
         nameCell.textContent = meeting.name;
+        nameCell.classList.add("text-capitalize"); 
         row.appendChild(nameCell);
 
         var startDateCell = document.createElement("td");
@@ -55,14 +56,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
         var ıslemlercell = document.createElement("td");
         var deleteButton = document.createElement("button");
-        deleteButton.innerHTML = '<i class="fas fa-trash delete"></i>'; 
+        deleteButton.innerHTML = '<i class="fas fa-trash delete"></i>';
         deleteButton.className = "btn btn-outline-danger btn-sm m-2 delete";
         deleteButton.setAttribute("data-id", meeting.id);
         ıslemlercell.appendChild(deleteButton);
         row.appendChild(ıslemlercell);
 
         var editButton = document.createElement("button");
-        editButton.innerHTML = '<i class="fas fa-edit edit"></i>'; 
+        editButton.innerHTML = '<i class="fas fa-edit edit"></i>';
         editButton.className = "btn btn-outline-primary btn-sm edit m-2";
         editButton.setAttribute("data-id", meeting.id);
         ıslemlercell.appendChild(editButton);
@@ -76,14 +77,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function formatDate(dateString) {
     var date = new Date(dateString);
-    
-    var day = date.getDate().toString().padStart(2, '0');
-    var month = (date.getMonth() + 1).toString().padStart(2, '0'); 
+
+    var day = date.getDate().toString().padStart(2, "0");
+    var month = (date.getMonth() + 1).toString().padStart(2, "0");
     var year = date.getFullYear();
-    
-    var hours = date.getHours().toString().padStart(2, '0');
-    var minutes = date.getMinutes().toString().padStart(2, '0');
-    
+
+    var hours = date.getHours().toString().padStart(2, "0");
+    var minutes = date.getMinutes().toString().padStart(2, "0");
+
     return `${day}/${month}/${year} ${hours}:${minutes}`;
   }
 });
