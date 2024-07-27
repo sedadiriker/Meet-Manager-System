@@ -21,52 +21,6 @@ namespace PresentationLayer.Controllers
             return View();
         }
 
-        [Route("/toplantı_listesi")]
-        public IActionResult Toplantı_Listesi()
-        {
-            return View();
-        }
-
-        [Route("/toplantı_ekle")]
-        public IActionResult Toplantı_Ekle()
-        {
-            return View();
-        }
-
-        [Route("/")]
-        public IActionResult Login()
-        {
-            _logger.LogInformation("Loading Login view...");
-            return View();
-        }
-
-        [Route("/register")]
-        public IActionResult Register()
-        {
-            return View();
-        }
-
-        [Route("/toplantı_raporları")]
-        public IActionResult Toplantı_Raporları()
-        {
-            return View();
-        }
-
-        [Route("/tablolar")]
-        public IActionResult Tablolar()
-        {
-            return View();
-        }
-        [Route("/profil")]
-        public IActionResult Profil()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+    
     }
 }
