@@ -53,9 +53,9 @@ namespace BusinessLayer.Services
         }
 
         public async Task SendMeetingNotificationEmailAsync(string toEmail, string meetingName, DateTime startDate, DateTime endDate, string description)
-{
-    var subject = "Toplantı Bilgilendirmesi";
-    var body = $@"
+        {
+            var subject = "Toplantı Bilgilendirmesi";
+            var body = $@"
         <h1>Toplantı Bilgilendirmesi</h1>
         <p><strong>Toplantı Adı:</strong> {meetingName}</p>
         <p><strong>Başlangıç Tarihi:</strong> {startDate.ToString("dd/MM/yyyy HH:mm")}</p>
@@ -63,30 +63,30 @@ namespace BusinessLayer.Services
         <p><strong>Açıklama:</strong> {description}</p>
         <p>Toplantıya katılmayı unutmayın!</p>";
 
-    using (var message = new MailMessage())
-    {
-        message.From = new MailAddress(_emailSettings.SenderEmail, _emailSettings.SenderName);
-        message.To.Add(toEmail);
-        message.Subject = subject;
-        message.Body = body;
-        message.IsBodyHtml = true;
+            using (var message = new MailMessage())
+            {
+                message.From = new MailAddress(_emailSettings.SenderEmail, _emailSettings.SenderName);
+                message.To.Add(toEmail);
+                message.Subject = subject;
+                message.Body = body;
+                message.IsBodyHtml = true;
 
-        using (var smtpClient = new SmtpClient(_emailSettings.SmtpServer, _emailSettings.SmtpPort))
-        {
-            smtpClient.Credentials = new NetworkCredential(_emailSettings.SenderEmail, _emailSettings.Password);
-            smtpClient.EnableSsl = true; 
-            try
-            {
-                await smtpClient.SendMailAsync(message);
-            }
-            catch (SmtpException ex)
-            {
-                Console.WriteLine($"SMTP Hatası: {ex.Message}");
-                throw;
+                using (var smtpClient = new SmtpClient(_emailSettings.SmtpServer, _emailSettings.SmtpPort))
+                {
+                    smtpClient.Credentials = new NetworkCredential(_emailSettings.SenderEmail, _emailSettings.Password);
+                    smtpClient.EnableSsl = true;
+                    try
+                    {
+                        await smtpClient.SendMailAsync(message);
+                    }
+                    catch (SmtpException ex)
+                    {
+                        Console.WriteLine($"SMTP Hatası: {ex.Message}");
+                        throw;
+                    }
+                }
             }
         }
-    }
-}
 
 
 
