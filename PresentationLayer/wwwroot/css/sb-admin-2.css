@@ -186,6 +186,42 @@ samp {
   font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   font-size: 1em;
 }
+.table th, .table td {
+  vertical-align: middle; /* Hücrelerde ortalamak */
+}
+.name-cell {
+  width: 20% !important; /* Adı sütunu genişliği */
+}
+.start-date-cell {
+  width: 15% !important; /* Başlangıç tarihi sütunu genişliği */
+}
+.end-date-cell {
+  width: 15% !important; /* Bitiş tarihi sütunu genişliği */
+}
+.description-cell {
+  width: 30% !important; /* Açıklama sütunu genişliği */
+}
+.document-cell {
+  width: 10% !important; /* Döküman sütunu genişliği */
+}
+.actions-cell {
+  width: 10% !important; /* İşlemler sütunu genişliği */
+}
+.description-summary {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.description-full {
+  display: none; /* Başlangıçta gizli */
+  max-height: 200px; /* İhtiyaca göre ayarlayın */
+  overflow: auto;
+}
+.description-full.open {
+  display: block;
+}
 
 pre {
   margin-top: 0;

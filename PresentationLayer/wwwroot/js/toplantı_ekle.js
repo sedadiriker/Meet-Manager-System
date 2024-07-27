@@ -2,8 +2,10 @@ document.addEventListener("DOMContentLoaded", function () {
   var now = new Date();
   var today = now.toISOString().split("T")[0] + 'T' + now.toTimeString().split(" ")[0];
 
-  document.getElementById("StartDate").setAttribute("min", today);
-  document.getElementById("EndDate").setAttribute("min", today);
+  var minDate = today.substring(0, 16); 
+
+  document.getElementById("StartDate").setAttribute("min", minDate);
+  document.getElementById("EndDate").setAttribute("min", minDate);
 
   document.getElementById("StartDate").addEventListener("change", function () {
       var startDate = document.getElementById("StartDate").value;
