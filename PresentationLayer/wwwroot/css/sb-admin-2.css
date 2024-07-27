@@ -204,9 +204,7 @@ samp {
 .document-cell {
   width: 10% !important; /* Döküman sütunu genişliği */
 }
-.actions-cell {
-  width: 10% !important; /* İşlemler sütunu genişliği */
-}
+
 .description-summary {
   max-width: 100%;
   overflow: hidden;
@@ -221,6 +219,31 @@ samp {
 }
 .description-full.open {
   display: block;
+}
+.tooltip-button {
+  position: relative; /* Tooltip'in butonun üstünde görünmesi için */
+  display: inline-block; /* Tooltip'lerin butonla hizalanması için */
+}
+
+.tooltip-text {
+  visibility: hidden;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 5px;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%; /* Butonun üstünde görünmesi için */
+  left: 50%; /* Orta hizalamak için */
+  transform: translateX(-50%); /* Orta hizalamak için */
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tooltip-button:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
 }
 
 pre {
