@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
   var token = localStorage.getItem("token");
+  var currentUserId = JSON.parse(localStorage.getItem("user"))?.id; 
 
   fetch("http://localhost:5064/api/Meetings", {
     method: "GET",
@@ -36,7 +37,7 @@ document.addEventListener("DOMContentLoaded", function () {
       row.appendChild(endDateCell);
 
       var descriptionCell = document.createElement("td");
-      descriptionCell.className = "description-cell"; // Sınıf ekleniyor
+      descriptionCell.className = "description-cell";
 
       var summary = document.createElement("div");
       summary.className = "description-summary";
@@ -60,31 +61,42 @@ document.addEventListener("DOMContentLoaded", function () {
       row.appendChild(descriptionCell);
 
       var documentCell = document.createElement("td");
-      documentCell.className = "document-cell"; // Sınıf ekleniyor
+      documentCell.className = "document-cell";
+
       if (meeting.documentPath) {
         var link = document.createElement("a");
         link.href = meeting.documentPath;
-        link.target = "_blank";
         link.textContent = "Döküman";
+        link.className = "document-link";
+        link.setAttribute("data-user-id", meeting.userId); 
+        if (meeting.userId !== currentUserId) {
+          link.style.pointerEvents = 'none'; 
+          link.style.color = '#ccc'; 
+        }
         documentCell.appendChild(link);
       } else {
         documentCell.textContent = "-";
       }
+
       row.appendChild(documentCell);
 
       var actionsCell = document.createElement("td");
-      actionsCell.className = "actions-cell"; // Sınıf ekleniyor
-      var deleteButton = document.createElement("button");
-      deleteButton.innerHTML = '<i class="fas fa-trash delete"></i>';
-      deleteButton.className = "btn btn-outline-danger btn-sm m-2 delete";
-      deleteButton.setAttribute("data-id", meeting.id);
-      actionsCell.appendChild(deleteButton);
+      actionsCell.className = "actions-cell";
+      
+      // Sadece toplantı sahibi ise silme ve düzenleme butonlarını göster
+      if (meeting.userId === currentUserId) {
+        var deleteButton = document.createElement("button");
+        deleteButton.innerHTML = '<i class="fas fa-trash delete"></i>';
+        deleteButton.className = "btn btn-outline-danger btn-sm m-2 delete";
+        deleteButton.setAttribute("data-id", meeting.id);
+        actionsCell.appendChild(deleteButton);
 
-      var editButton = document.createElement("button");
-      editButton.innerHTML = '<i class="fas fa-edit edit"></i>';
-      editButton.className = "btn btn-outline-primary btn-sm edit m-2";
-      editButton.setAttribute("data-id", meeting.id);
-      actionsCell.appendChild(editButton);
+        var editButton = document.createElement("button");
+        editButton.innerHTML = '<i class="fas fa-edit edit"></i>';
+        editButton.className = "btn btn-outline-primary btn-sm edit m-2";
+        editButton.setAttribute("data-id", meeting.id);
+        actionsCell.appendChild(editButton);
+      }
 
       row.appendChild(actionsCell);
 

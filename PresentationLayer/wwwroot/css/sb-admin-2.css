@@ -9796,6 +9796,9 @@ a.text-dark:hover, a.text-dark:focus {
   .table th {
     background-color: #fff !important;
   }
+  .table tr{
+    font-size: 12px !important;
+  }
   .table-bordered th,
   .table-bordered td {
     border: 1px solid #dddfeb !important;

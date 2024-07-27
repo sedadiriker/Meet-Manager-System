@@ -9,10 +9,14 @@ document.addEventListener('DOMContentLoaded', function() {
         commonModalBody.textContent = 'Oturumunuzu sonlandırmak istediğinizden emin misiniz?';
         commonModalConfirmButton.textContent = 'Çıkış Yap';
 
-        commonModalConfirmButton.onclick = function() {
+        commonModalConfirmButton.onclick = () => {
             localStorage.removeItem('token');
             localStorage.removeItem('user');
-            window.location.href = '/'; 
+            setTimeout(() => {
+                window.location.href = "/";
+              }, 2000);
+          
+              toastr["success"]("Başarılı bir şekilde çıkış yaptınız");
         };
 
         commonModal.show();
