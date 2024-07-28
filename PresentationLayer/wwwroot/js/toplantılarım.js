@@ -1,4 +1,3 @@
-//toplantılarım.js
 async function fetchMeetings() {
     const user = JSON.parse(localStorage.getItem('user')); 
     if (!user) {
@@ -6,7 +5,7 @@ async function fetchMeetings() {
         return;
     }
     try {
-        const response = await fetch('http://localhost:5064/api/meetings', {
+        const response = await fetch('http://localhost:5064/api/Meetings', {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`, 
@@ -19,7 +18,6 @@ async function fetchMeetings() {
         }
 
         const meetings = await response.json();
-        // console.log(meetings)
         const userMeetings = meetings.filter(meeting => meeting.userId === user.id);
         console.log(userMeetings);
         renderMeetings(userMeetings, user.id);
@@ -27,6 +25,8 @@ async function fetchMeetings() {
         console.error('Hata:', error);
     }
 }
+
+let selectedMeeting;
 
 function renderMeetings(meetings, currentUserId) {
     const meetingsBody = document.getElementById('meetingsBody2');
@@ -117,6 +117,15 @@ function renderMeetings(meetings, currentUserId) {
             editButton.setAttribute("data-tooltip", "Düzenle");
             editButton.onclick = () => editMeeting(meeting.id);
             actionsCell.appendChild(editButton);
+
+            var emailButton = document.createElement("button");
+            emailButton.innerHTML = '<i class="fas fa-envelope email"></i>';
+            emailButton.className = "btn btn-outline-info btn-sm m-1 email tooltip-button";
+            emailButton.style.fontSize = "0.5rem";
+            emailButton.setAttribute("data-id", meeting.id);
+            emailButton.setAttribute("data-tooltip", "Email Gönder");
+            emailButton.onclick = () => openEmailModal(meeting);
+            actionsCell.appendChild(emailButton);
         }
 
         row.appendChild(actionsCell);
@@ -133,6 +142,59 @@ function renderMeetings(meetings, currentUserId) {
         button.appendChild(tooltipSpan);
     });
 }
+
+function openEmailModal(meeting) {
+    selectedMeeting = meeting;
+    console.log("selected",selectedMeeting)
+    var modal = new bootstrap.Modal(document.getElementById('emailModal'), {});
+    modal.show();
+}
+
+async function sendEmailNotification() {
+    const recipients = document.getElementById('emailRecipients').value.split(',').map(email => email.trim());
+    if (recipients.length === 0) {
+        alert('Lütfen en az bir e-posta adresi giriniz.');
+        return;
+    }
+
+    try {
+        const response = await fetch(`http://localhost:5064/api/Meetings/${selectedMeeting.id}/send-email`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                toEmails: recipients,
+                subject: `Toplantı Bilgilendirmesi: ${selectedMeeting.name}`,
+                body: `
+                    <ul>
+                        <li><strong>Toplantı Adı:</strong> ${selectedMeeting.name}</li>
+                        <li><strong>Başlangıç Tarihi:</strong> ${formatDate(selectedMeeting.startDate)}</li>
+                        <li><strong>Bitiş Tarihi:</strong> ${formatDate(selectedMeeting.endDate)}</li>
+                        <li><strong>Açıklama:</strong> ${selectedMeeting.description}</li>
+                    </ul>
+                `,
+                isHtml: true
+            })
+        });
+
+        if (response.ok) {
+            alert('Toplantı bilgilendirme e-postası başarıyla gönderildi.');
+        } else {
+            throw new Error('E-posta gönderilemedi.');
+        }
+    } catch (error) {
+        console.error('E-posta gönderme hatası:', error);
+    } finally {
+        var modal = new bootstrap.Modal(document.getElementById('emailModal'));
+        modal.hide();
+    }
+}
+
+
+
+document.getElementById('sendEmailButton').addEventListener('click', sendEmailNotification);
 
 function editMeeting(meetingId) {
     console.log('Düzenle: ', meetingId);

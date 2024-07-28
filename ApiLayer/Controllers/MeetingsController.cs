@@ -185,5 +185,30 @@ namespace ApiLayer.Controllers
 
             return NoContent();
         }
+
+        [HttpPost("{id}/send-email")]
+        public async Task<IActionResult> SendMeetingNotification(int id, [FromBody] EmailRequest emailRequest)
+        {
+            var meeting = _meetingService.GetMeetingById(id);
+            if (meeting == null)
+            {
+                return NotFound("Toplantı bulunamadı.");
+            }
+
+            try
+            {
+                foreach (var email in emailRequest.ToEmails)
+                {
+                    await _emailService.SendMeetingNotificationAsync(email, meeting);
+                }
+                return Ok("E-posta gönderimi başarılı.");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"E-posta gönderimi sırasında hata oluştu: {ex.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError, "E-posta gönderimi sırasında hata oluştu.");
+            }
+        }
+
     }
 }

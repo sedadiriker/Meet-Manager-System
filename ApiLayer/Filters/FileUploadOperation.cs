@@ -1,33 +1,43 @@
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Http;
 
 public class FileUploadOperation : IOperationFilter
 {
     public void Apply(OpenApiOperation operation, OperationFilterContext context)
     {
-        // Tüm parametreleri kontrol et
-        var formDataParameters = context.MethodInfo.GetParameters()
-            .Where(p => p.GetCustomAttributes(typeof(FromFormAttribute), false).Any() &&
-                        p.ParameterType == typeof(IFormFile))
-            .Select(p => new OpenApiParameter
-            {
-                Name = p.Name,
-                In = ParameterLocation.Header, // Header yerine FormData kullanmak gerekebilir
-                Required = true,
-                Schema = new OpenApiSchema
-                {
-                    Type = "string",
-                    Format = "binary"
-                }
-            })
+        var formFileParameters = context.MethodInfo.GetParameters()
+            .Where(p => p.ParameterType == typeof(IFormFile) || p.ParameterType == typeof(IEnumerable<IFormFile>))
             .ToList();
 
-        foreach (var parameter in formDataParameters)
+        if (formFileParameters.Count > 0)
         {
-            operation.Parameters.Add(parameter);
+            operation.Parameters.Clear();
+
+            operation.RequestBody = new OpenApiRequestBody
+            {
+                Content = new Dictionary<string, OpenApiMediaType>
+                {
+                    ["multipart/form-data"] = new OpenApiMediaType
+                    {
+                        Schema = new OpenApiSchema
+                        {
+                            Type = "object",
+                            Properties = formFileParameters.ToDictionary(
+                                p => p.Name,
+                                p => new OpenApiSchema
+                                {
+                                    Type = "string",
+                                    Format = "binary"
+                                }
+                            ),
+                            Required = new HashSet<string>(formFileParameters.Select(p => p.Name))
+                        }
+                    }
+                }
+            };
         }
     }
 }

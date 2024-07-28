@@ -53,80 +53,76 @@ namespace ApiLayer.Controllers
         }
 
         // POST user
-        // POST user
-[HttpPost]
-[Consumes("multipart/form-data")]
-[SwaggerOperation(Summary = "Yeni kullanıcı oluştur")]
-[SwaggerResponse(StatusCodes.Status200OK, "Kullanıcı başarılı şekilde oluşturuldu.")]
-[SwaggerResponse(StatusCodes.Status400BadRequest, "Geçersiz e-posta veya diğer kayıt hataları.")]
-public async Task<IActionResult> CreateUser(
-    [FromForm] RegisterDto registerDto,
-    [FromForm] IFormFile profilePicture)
-{
-    // Model doğrulama
-    if (!ModelState.IsValid)
-    {
-        return BadRequest("Geçersiz model.");
-    }
-
-    if (await _userService.UserExistsAsync(registerDto.Email))
-    {
-        return BadRequest("Bu e-posta adresi zaten kayıtlı.");
-    }
-
-    if (string.IsNullOrEmpty(registerDto.Password))
-    {
-        return BadRequest("Şifre gereklidir.");
-    }
-
-    var salt = GenerateSalt();
-    var hashedPassword = HashPassword(registerDto.Password, salt);
-
-    string profilePicturePath = null;
-    if (profilePicture != null && profilePicture.Length > 0)
-    {
-        var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
-        Directory.CreateDirectory(uploadsFolder);
-
-        var uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(profilePicture.FileName);
-        profilePicturePath = Path.Combine(uploadsFolder, uniqueFileName);
-        
-        try
+        [HttpPost]
+        [Consumes("multipart/form-data")]
+        [SwaggerOperation(Summary = "Yeni kullanıcı oluştur")]
+        [SwaggerResponse(StatusCodes.Status200OK, "Kullanıcı başarılı şekilde oluşturuldu.")]
+        [SwaggerResponse(StatusCodes.Status400BadRequest, "Geçersiz e-posta veya diğer kayıt hataları.")]
+        public async Task<IActionResult> CreateUser(
+            [FromForm] RegisterDto registerDto)
         {
-            using (var stream = new FileStream(profilePicturePath, FileMode.Create))
+            if (!ModelState.IsValid)
             {
-                await profilePicture.CopyToAsync(stream);
+                return BadRequest("Geçersiz model.");
             }
+
+            if (await _userService.UserExistsAsync(registerDto.Email))
+            {
+                return BadRequest("Bu e-posta adresi zaten kayıtlı.");
+            }
+
+            if (string.IsNullOrEmpty(registerDto.Password))
+            {
+                return BadRequest("Şifre gereklidir.");
+            }
+
+            var salt = GenerateSalt();
+            var hashedPassword = HashPassword(registerDto.Password, salt);
+
+            string profilePicturePath = null;
+            if (registerDto.ProfilePicture != null && registerDto.ProfilePicture.Length > 0)
+            {
+                var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
+                Directory.CreateDirectory(uploadsFolder);
+
+                var uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(registerDto.ProfilePicture.FileName);
+                profilePicturePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                try
+                {
+                    using (var stream = new FileStream(profilePicturePath, FileMode.Create))
+                    {
+                        await registerDto.ProfilePicture.CopyToAsync(stream);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, $"Dosya yükleme hatası: {ex.Message}");
+                }
+            }
+
+            var newUser = new User
+            {
+                FirstName = registerDto.FirstName,
+                LastName = registerDto.LastName,
+                Email = registerDto.Email,
+                Phone = registerDto.Phone,
+                PasswordHash = hashedPassword,
+                ProfilePicture = profilePicturePath
+            };
+
+            try
+            {
+                await _userService.CreateUserAsync(newUser);
+                await _emailService.SendWelcomeEmailAsync(newUser.Email, newUser.FirstName);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Kullanıcı oluşturma hatası: {ex.Message}");
+            }
+
+            return Ok("Kayıt işlemi başarılı.");
         }
-        catch (Exception ex)
-        {
-            return StatusCode(StatusCodes.Status500InternalServerError, $"Dosya yükleme hatası: {ex.Message}");
-        }
-    }
-
-    var newUser = new User
-    {
-        FirstName = registerDto.FirstName,
-        LastName = registerDto.LastName,
-        Email = registerDto.Email,
-        Phone = registerDto.Phone,
-        PasswordHash = hashedPassword,
-        ProfilePicture = profilePicturePath
-    };
-
-    try
-    {
-        await _userService.CreateUserAsync(newUser);
-        await _emailService.SendWelcomeEmailAsync(newUser.Email, newUser.FirstName);
-    }
-    catch (Exception ex)
-    {
-        return StatusCode(StatusCodes.Status500InternalServerError, $"Kullanıcı oluşturma hatası: {ex.Message}");
-    }
-
-    return Ok("Kayıt işlemi başarılı.");
-}
-
 
         // PUT User
         [HttpPut("{id}")]
@@ -134,7 +130,7 @@ public async Task<IActionResult> CreateUser(
         [SwaggerOperation(Summary = "Kullanıcıyı güncelleme")]
         [SwaggerResponse(StatusCodes.Status200OK, "Kullanıcı başarılı şekilde güncellendi.")]
         [SwaggerResponse(StatusCodes.Status404NotFound, "Kullanıcı bulunamadı.")]
-        public async Task<IActionResult> UpdateUser(int id, [FromForm] UpdateUserDto updatedUserDto, [FromForm] IFormFile profilePicture)
+        public async Task<IActionResult> UpdateUser(int id, [FromForm] EditProfilDto editProfilDto)
         {
             var user = await _userService.GetUserByIdAsync(id);
             if (user == null)
@@ -142,27 +138,27 @@ public async Task<IActionResult> CreateUser(
                 return NotFound("Kullanıcı bulunamadı.");
             }
 
-            user.FirstName = updatedUserDto.FirstName;
-            user.LastName = updatedUserDto.LastName;
-            user.Email = updatedUserDto.Email;
-            user.Phone = updatedUserDto.Phone;
+            user.FirstName = editProfilDto.FirstName;
+            user.LastName = editProfilDto.LastName;
+            user.Email = editProfilDto.Email;
+            user.Phone = editProfilDto.Phone;
 
-            if (!string.IsNullOrEmpty(updatedUserDto.Password))
+            if (!string.IsNullOrEmpty(editProfilDto.Password))
             {
                 var salt = GenerateSalt();
-                var hashedPassword = HashPassword(updatedUserDto.Password, salt);
+                var hashedPassword = HashPassword(editProfilDto.Password, salt);
                 user.PasswordHash = hashedPassword;
             }
 
-            if (profilePicture != null && profilePicture.Length > 0)
+            if (editProfilDto.ProfilePicture != null && editProfilDto.ProfilePicture.Length > 0)
             {
                 var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
                 Directory.CreateDirectory(uploadsFolder);
 
-                var profilePicturePath = Path.Combine(uploadsFolder, profilePicture.FileName);
+                var profilePicturePath = Path.Combine(uploadsFolder, Guid.NewGuid().ToString() + Path.GetExtension(editProfilDto.ProfilePicture.FileName));
                 using (var stream = new FileStream(profilePicturePath, FileMode.Create))
                 {
-                    await profilePicture.CopyToAsync(stream);
+                    await editProfilDto.ProfilePicture.CopyToAsync(stream);
                 }
 
                 user.ProfilePicture = profilePicturePath;
@@ -171,8 +167,6 @@ public async Task<IActionResult> CreateUser(
             await _userService.UpdateUserAsync(user);
             return Ok("Kullanıcı başarılı şekilde güncellendi.");
         }
-
-
 
         [HttpDelete("{id}")]
         [SwaggerOperation(Summary = "Kullanıcıyı sil")]

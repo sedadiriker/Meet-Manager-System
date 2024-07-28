@@ -11,8 +11,8 @@ using DataAccessLayer.Data;
 using BusinessLayer.Services;
 using BusinessLayer.Interfaces;
 using EntitiesLayer.Models;
-using System.Threading.Tasks; 
-
+using System.Threading.Tasks;
+using System;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,7 +26,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowSpecificOrigins",
         builder =>
         {
-            builder.WithOrigins("http://localhost:5284") 
+            builder.WithOrigins("http://localhost:5284")
                    .AllowAnyMethod()
                    .AllowAnyHeader()
                    .AllowCredentials();
@@ -98,7 +98,7 @@ builder.Services.AddAuthentication(options =>
             return Task.CompletedTask;
         }
     };
-    
+
     options.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuer = true,
@@ -107,7 +107,9 @@ builder.Services.AddAuthentication(options =>
         ValidateIssuerSigningKey = true,
         ValidIssuer = jwtSettings["Issuer"],
         ValidAudience = jwtSettings["Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(key)
+        IssuerSigningKey = new SymmetricSecurityKey(key),
+        ClockSkew = TimeSpan.Zero 
+
     };
 });
 
@@ -142,9 +144,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
-app.UseCors("AllowSpecificOrigins"); 
+app.UseCors("AllowSpecificOrigins");
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();
-
