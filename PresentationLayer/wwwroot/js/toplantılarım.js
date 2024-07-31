@@ -180,7 +180,7 @@ async function sendEmailNotification() {
         });
 
         if (response.ok) {
-            alert('Toplantı bilgilendirme e-postası başarıyla gönderildi.');
+            toastr["success"]('Toplantı bilgilendirme e-postası başarıyla gönderildi.');
         } else {
             throw new Error('E-posta gönderilemedi.');
         }
