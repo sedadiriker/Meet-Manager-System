@@ -20,13 +20,10 @@ document.addEventListener("DOMContentLoaded", function () {
         })
         .then(response => response.json())
         .then(meeting => {
-            console.log(meeting); // Debug: meeting objesinin içeriğini kontrol edin
-
-            // Element ID'lerinin doğru olduğundan emin olun
             document.getElementById('editMeetingId').value = meeting.id || '';
             document.getElementById('editName').value = meeting.name || '';
-            document.getElementById('editStartDate').value = meeting.startDate || '';
-            document.getElementById('editEndDate').value = meeting.endDate || '';
+            document.getElementById('editStartDate').value = meeting.startDate ? new Date(meeting.startDate).toISOString().slice(0, 16) : '';
+            document.getElementById('editEndDate').value = meeting.endDate ? new Date(meeting.endDate).toISOString().slice(0, 16) : '';
             document.getElementById('editDescription').value = meeting.description || '';
             document.getElementById('currentDocument').textContent = meeting.documentPath ? `Mevcut döküman: ${meeting.documentPath}` : "Mevcut döküman yok";
 
@@ -35,11 +32,10 @@ document.addEventListener("DOMContentLoaded", function () {
         })
         .catch(error => {
             console.error('Toplantı detayları alınırken bir hata oluştu:', error);
-            alert('Toplantı detayları alınırken bir hata oluştu.');
+            toastr["error"]('Toplantı detayları alınırken bir hata oluştu.');
         });
     }
 
-    // Formu gönderme işlemi
     document.getElementById('editMeetingForm').addEventListener('submit', function (event) {
         event.preventDefault();
 
@@ -55,15 +51,17 @@ document.addEventListener("DOMContentLoaded", function () {
         })
         .then(response => {
             if (response.ok) {
-                alert('Toplantı başarıyla güncellendi.');
-                location.reload();
+                setTimeout(() => {
+                    location.reload();
+                }, 2000);
+                toastr["success"]('Toplantı başarıyla güncellendi.');
             } else {
                 throw new Error('Sunucudan hata yanıtı alındı: ' + response.statusText);
             }
         })
         .catch(error => {
             console.error('Toplantı güncellenirken bir hata oluştu:', error);
-            alert('Toplantı güncellenirken bir hata oluştu.');
+            toastr["error"]('Toplantı güncellenirken bir hata oluştu.');
         });
     });
 });

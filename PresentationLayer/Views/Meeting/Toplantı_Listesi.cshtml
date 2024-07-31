@@ -1,0 +1,24 @@
+@model IEnumerable<EntitiesLayer.Models.Meeting>
+
+@{
+    ViewData["Title"] = "Toplantı Listesi";
+}
+
+
+<div class="container mt-5 table-responsive">
+    <h2 class="mb-4 text-primary" style="text-shadow: 1px 1px 1px black;">Toplantı Listesi</h2>
+    <table class="table table-striped">
+      <thead>
+        <tr class="text-center text-uppercase text-primary" style="font-size: 12px">
+          <th class="name-cell">Adı</th>
+          <th class="start-date-cell">Başlangıç Tarihi</th>
+          <th class="end-date-cell">Bitiş Tarihi</th>
+          <th class="description-cell">Açıklama</th>
+          <th class="document-cell">Döküman</th>
+          <th class="actions-cell">İşlemler</th>
+        </tr>
+      </thead>
+      <tbody id="meetingsBody" class="text-center">
+      </tbody>
+    </table>
+  </div>

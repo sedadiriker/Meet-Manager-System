@@ -12,7 +12,6 @@ const login = async (email, password) => {
   } catch (error) {
     console.log(error);
     toastr["error"]("Giriş başarısız!");
-
   }
 };
 
@@ -25,12 +24,12 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
   try {
     await login(email, password);
 
-    // Başarılı giriş durumunda kullanıcı bilgisini navbar'a yazdırma
+    
     const user = JSON.parse(localStorage.getItem('user'));
     if (user && user.FirstName) {
       document.querySelector('.navbar .text-gray-600').textContent = user.FirstName;
     }
   } catch (error) {
-    console.error("Login işlemi sırasında bir hata oluştu:", error);
+    toastr["error"]("Giriş başarısız!");
   }
 });

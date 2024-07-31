@@ -7,7 +7,11 @@ namespace EntitiesLayer.Models
         public string? LastName { get; set; }
         public string? Email { get; set; }
         public string? Phone { get; set; }
-        public string? PasswordHash { get; set; } 
+        public string? PasswordHash { get; set; }
         public string? ProfilePicture { get; set; }
+
+        public ICollection<Meeting> Meetings { get; set; } = new List<Meeting>();
+
+
     }
 }
