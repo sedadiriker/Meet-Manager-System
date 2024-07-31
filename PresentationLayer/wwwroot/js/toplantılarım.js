@@ -143,13 +143,18 @@ function renderMeetings(meetings, currentUserId) {
     });
 }
 
+// Modal'ı açmak için işlev
 function openEmailModal(meeting) {
-    selectedMeeting = meeting;
-    console.log("selected",selectedMeeting)
-    var modal = new bootstrap.Modal(document.getElementById('emailModal'), {});
-    modal.show();
+    selectedMeeting = meeting
+    $('#emailModal').modal('show'); // jQuery kullanarak modal'ı göster
 }
 
+// Modal'ı kapatmak için işlev
+function closeEmailModal() {
+    $('#emailModal').modal('hide'); // jQuery kullanarak modal'ı kapat
+}
+
+// E-posta gönderme işlevi
 async function sendEmailNotification() {
     const recipients = document.getElementById('emailRecipients').value.split(',').map(email => email.trim());
     if (recipients.length === 0) {
@@ -187,14 +192,14 @@ async function sendEmailNotification() {
     } catch (error) {
         console.error('E-posta gönderme hatası:', error);
     } finally {
-        var modal = new bootstrap.Modal(document.getElementById('emailModal'));
-        modal.hide();
+        $('#emailModal').modal('hide'); // Modal'ı kapat
+        document.getElementById('emailRecipients').value = ''; // E-posta adreslerini temizle
     }
 }
 
-
-
+// E-posta gönderme butonuna tıklama olayı ekle
 document.getElementById('sendEmailButton').addEventListener('click', sendEmailNotification);
+
 
 function editMeeting(meetingId) {
     console.log('Düzenle: ', meetingId);
@@ -214,3 +219,6 @@ function formatDate(dateString) {
 }
 
 document.addEventListener('DOMContentLoaded', fetchMeetings);
+
+
+
