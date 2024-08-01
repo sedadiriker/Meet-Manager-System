@@ -313,6 +313,18 @@
 /Users/sedadiriker/Desktop/MeetManagerSystem/PresentationLayer/bin/Debug/net8.0/Azure.Core.dll
 /Users/sedadiriker/Desktop/MeetManagerSystem/PresentationLayer/bin/Debug/net8.0/Azure.Identity.dll
 /Users/sedadiriker/Desktop/MeetManagerSystem/PresentationLayer/bin/Debug/net8.0/BouncyCastle.Cryptography.dll
+/Users/sedadiriker/Desktop/MeetManagerSystem/PresentationLayer/bin/Debug/net8.0/itext.barcodes.dll
+/Users/sedadiriker/Desktop/MeetManagerSystem/PresentationLayer/bin/Debug/net8.0/itext.bouncy-castle-connector.dll
+/Users/sedadiriker/Desktop/MeetManagerSystem/PresentationLayer/bin/Debug/net8.0/itext.forms.dll
+/Users/sedadiriker/Desktop/MeetManagerSystem/PresentationLayer/bin/Debug/net8.0/itext.io.dll
+/Users/sedadiriker/Desktop/MeetManagerSystem/PresentationLayer/bin/Debug/net8.0/itext.kernel.dll
+/Users/sedadiriker/Desktop/MeetManagerSystem/PresentationLayer/bin/Debug/net8.0/itext.layout.dll
+/Users/sedadiriker/Desktop/MeetManagerSystem/PresentationLayer/bin/Debug/net8.0/itext.pdfa.dll
+/Users/sedadiriker/Desktop/MeetManagerSystem/PresentationLayer/bin/Debug/net8.0/itext.pdfua.dll
+/Users/sedadiriker/Desktop/MeetManagerSystem/PresentationLayer/bin/Debug/net8.0/itext.sign.dll
+/Users/sedadiriker/Desktop/MeetManagerSystem/PresentationLayer/bin/Debug/net8.0/itext.styledxmlparser.dll
+/Users/sedadiriker/Desktop/MeetManagerSystem/PresentationLayer/bin/Debug/net8.0/itext.svg.dll
+/Users/sedadiriker/Desktop/MeetManagerSystem/PresentationLayer/bin/Debug/net8.0/itext.commons.dll
 /Users/sedadiriker/Desktop/MeetManagerSystem/PresentationLayer/bin/Debug/net8.0/MailKit.dll
 /Users/sedadiriker/Desktop/MeetManagerSystem/PresentationLayer/bin/Debug/net8.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
 /Users/sedadiriker/Desktop/MeetManagerSystem/PresentationLayer/bin/Debug/net8.0/Microsoft.AspNetCore.JsonPatch.dll
@@ -325,6 +337,7 @@
 /Users/sedadiriker/Desktop/MeetManagerSystem/PresentationLayer/bin/Debug/net8.0/Microsoft.CodeAnalysis.CSharp.dll
 /Users/sedadiriker/Desktop/MeetManagerSystem/PresentationLayer/bin/Debug/net8.0/Microsoft.CodeAnalysis.Razor.dll
 /Users/sedadiriker/Desktop/MeetManagerSystem/PresentationLayer/bin/Debug/net8.0/Microsoft.Data.SqlClient.dll
+/Users/sedadiriker/Desktop/MeetManagerSystem/PresentationLayer/bin/Debug/net8.0/Microsoft.DotNet.PlatformAbstractions.dll
 /Users/sedadiriker/Desktop/MeetManagerSystem/PresentationLayer/bin/Debug/net8.0/Microsoft.EntityFrameworkCore.dll
 /Users/sedadiriker/Desktop/MeetManagerSystem/PresentationLayer/bin/Debug/net8.0/Microsoft.EntityFrameworkCore.Abstractions.dll
 /Users/sedadiriker/Desktop/MeetManagerSystem/PresentationLayer/bin/Debug/net8.0/Microsoft.EntityFrameworkCore.Relational.dll
@@ -429,3 +442,6 @@
 /Users/sedadiriker/Desktop/MeetManagerSystem/PresentationLayer/obj/Debug/net8.0/PresentationLayer.pdb
 /Users/sedadiriker/Desktop/MeetManagerSystem/PresentationLayer/obj/Debug/net8.0/PresentationLayer.genruntimeconfig.cache
 /Users/sedadiriker/Desktop/MeetManagerSystem/PresentationLayer/obj/Debug/net8.0/ref/PresentationLayer.dll
+/Users/sedadiriker/Desktop/MeetManagerSystem/PresentationLayer/bin/Debug/net8.0/itext.bouncy-castle-adapter.dll
+/Users/sedadiriker/Desktop/MeetManagerSystem/PresentationLayer/bin/Debug/net8.0/BouncyCastle.Crypto.dll
+/Users/sedadiriker/Desktop/MeetManagerSystem/PresentationLayer/bin/Debug/net8.0/crypto.dll

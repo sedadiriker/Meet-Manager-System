@@ -10,6 +10,9 @@ using EntitiesLayer.DTOs.Meeting;
 using Microsoft.Extensions.Logging;
 using System.Linq;
 using System;
+using iText.Kernel.Pdf;
+using iText.Layout;
+using iText.Layout.Element;
 
 namespace ApiLayer.Controllers
 {
@@ -21,14 +24,17 @@ namespace ApiLayer.Controllers
         private readonly IMeetingService _meetingService;
         private readonly IEmailService _emailService;
         private readonly ILogger<MeetingsController> _logger;
-        private readonly IUserService _userService; // Eklenen servis
+        private readonly IUserService _userService;
+        private readonly IReportService _reportService;
 
-        public MeetingsController(IMeetingService meetingService, IEmailService emailService, ILogger<MeetingsController> logger, IUserService userService)
+
+        public MeetingsController(IMeetingService meetingService, IEmailService emailService, ILogger<MeetingsController> logger, IUserService userService, IReportService reportService)
         {
             _meetingService = meetingService;
             _logger = logger;
             _emailService = emailService;
-            _userService = userService; // Kullanıcı servisini ekleyin
+            _userService = userService;
+            _reportService = reportService;
         }
 
         // GET: api/meetings
@@ -209,6 +215,25 @@ namespace ApiLayer.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "E-posta gönderimi sırasında hata oluştu.");
             }
         }
+
+
+        [HttpPost("{id}/generate-report")]
+        public IActionResult GenerateMeetingReport(int id)
+        {
+            try
+            {
+                var pdfBytes = _reportService.GenerateMeetingReport(id);
+                return File(pdfBytes, "application/pdf", "meeting_report.pdf");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Rapor oluşturma hatası: {ex.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError, "Rapor oluşturma sırasında hata oluştu.");
+            }
+        }
+
+
+
 
     }
 }

@@ -57,6 +57,18 @@
             "Microsoft.AspNetCore.Identity": {
               "target": "Package",
               "version": "[2.2.0, )"
+            },
+            "Portable.BouncyCastle": {
+              "target": "Package",
+              "version": "[1.9.0, )"
+            },
+            "itext7": {
+              "target": "Package",
+              "version": "[8.0.5, )"
+            },
+            "itext7.bouncy-castle-adapter": {
+              "target": "Package",
+              "version": "[8.0.5, )"
             }
           },
           "imports": [

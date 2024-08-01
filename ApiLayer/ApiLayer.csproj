@@ -10,6 +10,9 @@
   </ItemGroup>
   
   <ItemGroup>
+    <PackageReference Include="BouncyCastle.Crypto" Version="1.8.0-beta4" />
+    <PackageReference Include="itext7" Version="8.0.5" />
+    <PackageReference Include="itext7.bouncy-castle-adapter" Version="8.0.5" />
     <PackageReference Include="MailKit" Version="4.7.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.7" />
     <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />

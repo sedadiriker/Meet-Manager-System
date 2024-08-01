@@ -1,3 +1,4 @@
+
 async function fetchMeetings() {
     const user = JSON.parse(localStorage.getItem('user')); 
     if (!user) {
@@ -126,6 +127,17 @@ function renderMeetings(meetings, currentUserId) {
             emailButton.setAttribute("data-tooltip", "Email Gönder");
             emailButton.onclick = () => openEmailModal(meeting);
             actionsCell.appendChild(emailButton);
+
+            var raporButton = document.createElement("button");
+            raporButton.innerHTML = '<i class="fas fa-file-alt"></i>';
+            raporButton.className = "btn btn-outline-info btn-sm m-1 email tooltip-button";
+            raporButton.style.fontSize = "0.5rem";
+            raporButton.setAttribute("data-id", meeting.id);
+            raporButton.setAttribute("data-tooltip", "Rapor Oluştur");
+            raporButton.onclick = () => createRaport(meeting);
+            actionsCell.appendChild(raporButton);
+
+            
         }
 
         row.appendChild(actionsCell);
@@ -143,18 +155,15 @@ function renderMeetings(meetings, currentUserId) {
     });
 }
 
-// Modal'ı açmak için işlev
 function openEmailModal(meeting) {
     selectedMeeting = meeting
-    $('#emailModal').modal('show'); // jQuery kullanarak modal'ı göster
+    $('#emailModal').modal('show'); 
 }
 
-// Modal'ı kapatmak için işlev
 function closeEmailModal() {
-    $('#emailModal').modal('hide'); // jQuery kullanarak modal'ı kapat
+    $('#emailModal').modal('hide'); 
 }
 
-// E-posta gönderme işlevi
 async function sendEmailNotification() {
     const recipients = document.getElementById('emailRecipients').value.split(',').map(email => email.trim());
     if (recipients.length === 0) {
@@ -197,7 +206,6 @@ async function sendEmailNotification() {
     }
 }
 
-// E-posta gönderme butonuna tıklama olayı ekle
 document.getElementById('sendEmailButton').addEventListener('click', sendEmailNotification);
 
 
@@ -208,6 +216,37 @@ function editMeeting(meetingId) {
 function deleteMeeting(meetingId) {
     console.log('Sil: ', meetingId);
 }
+
+async function createRaport(meeting) {
+    try {
+        const response = await fetch(`http://localhost:5064/api/Meetings/${meeting.id}/generate-report`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (response.ok) {
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${meeting.name}_meeting_report.pdf`;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            window.URL.revokeObjectURL(url);
+        } else {
+            throw new Error('Rapor oluşturulamadı.');
+        }
+    } catch (error) {
+        console.error('Rapor oluşturma hatası:', error);
+    }
+}
+
+
+
 
 function truncateDescription(description) {
     return description.length > 100 ? description.substring(0, 100) + "..." : description;

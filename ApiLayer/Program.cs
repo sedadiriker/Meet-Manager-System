@@ -13,6 +13,7 @@ using BusinessLayer.Interfaces;
 using EntitiesLayer.Models;
 using System.Threading.Tasks;
 using System;
+using BusinessLayer.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -119,6 +120,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IMeetingService, MeetingService>();
+builder.Services.AddScoped<IReportService, ReportService>();
+builder.Services.AddScoped<IRepository<Meeting>, MeetingRepository>();
+
 
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 builder.Services.AddScoped<IEmailService, EmailService>();
