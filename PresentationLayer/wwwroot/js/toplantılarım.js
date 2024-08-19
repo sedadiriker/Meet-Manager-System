@@ -1,4 +1,3 @@
-
 async function fetchMeetings() {
     const user = JSON.parse(localStorage.getItem('user')); 
     if (!user) {
@@ -171,6 +170,9 @@ async function sendEmailNotification() {
         return;
     }
 
+    sendEmailButton.disabled = true;
+    sendEmailButton.textContent = 'Gönderiliyor...';
+
     try {
         const response = await fetch(`http://localhost:5064/api/Meetings/${selectedMeeting.id}/send-email`, {
             method: 'POST',
@@ -201,8 +203,10 @@ async function sendEmailNotification() {
     } catch (error) {
         console.error('E-posta gönderme hatası:', error);
     } finally {
-        $('#emailModal').modal('hide'); // Modal'ı kapat
-        document.getElementById('emailRecipients').value = ''; // E-posta adreslerini temizle
+        sendEmailButton.disabled = false;
+        sendEmailButton.textContent = 'E-posta Gönder';
+        $('#emailModal').modal('hide'); 
+        document.getElementById('emailRecipients').value = ''; 
     }
 }
 
@@ -216,27 +220,20 @@ function editMeeting(meetingId) {
 function deleteMeeting(meetingId) {
     console.log('Sil: ', meetingId);
 }
-
-async function createRaport(meeting) {
+async function createMeetingReport(meetingId) {
     try {
-        const response = await fetch(`http://localhost:5064/api/Meetings/${meeting.id}/generate-report`, {
+        const response = await fetch('http://localhost:5064/api/MeetingReports/generate', {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`,
                 'Content-Type': 'application/json'
-            }
+            },
+            body: JSON.stringify({ meetingId })  
         });
 
         if (response.ok) {
-            const blob = await response.blob();
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `${meeting.name}_meeting_report.pdf`;
-            document.body.appendChild(a);
-            a.click();
-            a.remove();
-            window.URL.revokeObjectURL(url);
+            const { reportUrl } = await response.json();
+            renderReports(meetingId, reportUrl);
         } else {
             throw new Error('Rapor oluşturulamadı.');
         }
@@ -244,7 +241,6 @@ async function createRaport(meeting) {
         console.error('Rapor oluşturma hatası:', error);
     }
 }
-
 
 
 

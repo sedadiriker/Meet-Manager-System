@@ -217,20 +217,7 @@ namespace ApiLayer.Controllers
         }
 
 
-        [HttpPost("{id}/generate-report")]
-        public IActionResult GenerateMeetingReport(int id)
-        {
-            try
-            {
-                var pdfBytes = _reportService.GenerateMeetingReport(id);
-                return File(pdfBytes, "application/pdf", "meeting_report.pdf");
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Rapor oluşturma hatası: {ex.Message}");
-                return StatusCode(StatusCodes.Status500InternalServerError, "Rapor oluşturma sırasında hata oluştu.");
-            }
-        }
+       
 
 
 

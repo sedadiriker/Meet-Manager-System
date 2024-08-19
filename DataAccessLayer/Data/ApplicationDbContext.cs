@@ -13,6 +13,8 @@ namespace DataAccessLayer.Data
 
         public DbSet<User> Users { get; set; }
         public DbSet<Meeting> Meetings { get; set; }
+        public DbSet<MeetingReport> MeetingReports { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
