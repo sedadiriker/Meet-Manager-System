@@ -24,6 +24,8 @@ async function fetchMeetings(page = 1) {
         const data = await response.json();
 
         const userMeetings = data.meetings?.filter(meeting => meeting.userId === user.id);
+        // Toplantıları tarihe göre sıralama
+        userMeetings.sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
         renderMeetings(userMeetings, user.id);
         renderPagination(data.totalPages, data.currentPage);
     } catch (error) {

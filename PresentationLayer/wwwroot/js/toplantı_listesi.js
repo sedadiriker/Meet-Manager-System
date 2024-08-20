@@ -2,8 +2,8 @@ document.addEventListener("DOMContentLoaded", function () {
     var token = localStorage.getItem("token");
     var currentUserId = JSON.parse(localStorage.getItem("user"))?.id;
     var currentPage = 1;
-    var pageSize = 10; 
-    var totalPages = 1; 
+    var pageSize = 10;
+    var totalPages = 1;
 
     function fetchMeetings(page = 1) {
         fetch(`http://localhost:5064/api/Meetings?page=${page}&pageSize=${pageSize}`, {
@@ -22,6 +22,8 @@ document.addEventListener("DOMContentLoaded", function () {
         .then((data) => {
             var tbody = document.getElementById("meetingsBody");
             tbody.innerHTML = "";
+
+            data.meetings.sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
 
             data.meetings.forEach((meeting) => {
                 var row = document.createElement("tr");
