@@ -1,15 +1,17 @@
 let currentPage = 1;
 const pageSize = 10;
 
-async function fetchMeetings(page = 1) {
-    currentPage = page;  // Mevcut sayfayı güncelle
+
+async function fetchMeetings(type = 'upcoming', page = 1) {
+    currentPage = page;  
     const user = JSON.parse(localStorage.getItem('user'));
     if (!user) {
         console.error('Kullanıcı kimliği bulunamadı.');
         return;
     }
     try {
-        const response = await fetch(`http://localhost:5064/api/Meetings?page=${page}&pageSize=${pageSize}`, {
+        const response = await fetch(`http://localhost:5064/api/meetings/filtered?type=${type}&page=${page}&pageSize=${pageSize}`, {
+
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -24,7 +26,6 @@ async function fetchMeetings(page = 1) {
         const data = await response.json();
 
         const userMeetings = data.meetings?.filter(meeting => meeting.userId === user.id);
-        // Toplantıları tarihe göre sıralama
         userMeetings.sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
         renderMeetings(userMeetings, user.id);
         renderPagination(data.totalPages, data.currentPage);

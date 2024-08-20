@@ -38,6 +38,12 @@ namespace PresentationLayer.Controllers
         {
             return View();
         }
+        
+        [Route("/gecmis_toplantılarım")]
+        public IActionResult Gecmis_Toplantılarım()
+        {
+            return View();
+        }
 
         [Route("/tablolar")]
         public IActionResult Tablolar()

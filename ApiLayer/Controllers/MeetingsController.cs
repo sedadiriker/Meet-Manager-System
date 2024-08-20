@@ -37,15 +37,40 @@ namespace ApiLayer.Controllers
             _reportService = reportService;
         }
 
-        // GET: api/meetings
-        [HttpGet]
-        [SwaggerOperation(Summary = "Tüm toplantıları getir")]
-        public IActionResult GetMeetings(int page = 1, int pageSize = 10)
+        [HttpGet("filtered")]
+        [SwaggerOperation(Summary = "Geçmiş veya gelecek toplantıları getir")]
+        public IActionResult GetFilteredMeetings(string type, int page = 1, int pageSize = 10)
         {
-            var meetings = _meetingService.GetAllMeetings();
+            var now = DateTime.UtcNow;
+            IQueryable<Meeting> meetings;
+
+            if (string.IsNullOrEmpty(type))
+            {
+                return BadRequest("Lütfen 'type' parametresini belirtin ('past' veya 'upcoming').");
+            }
+
+            if (type.ToLower() == "upcoming")
+            {
+                meetings = _meetingService.GetAllMeetings()
+                    .Where(m => m.StartDate > now)
+                    .OrderBy(m => m.StartDate)
+                    .ToList()
+                    .AsQueryable();
+            }
+            else if (type.ToLower() == "past")
+            {
+                meetings = _meetingService.GetAllMeetings()
+                    .Where(m => m.EndDate < now)
+                    .OrderByDescending(m => m.StartDate)
+                    .ToList()
+                    .AsQueryable();
+            }
+            else
+            {
+                return BadRequest("Geçersiz 'type' parametresi. Lütfen 'past' veya 'upcoming' kullanın.");
+            }
 
             var pagedMeetings = meetings.Skip((page - 1) * pageSize).Take(pageSize).ToList();
-
             var totalMeetings = meetings.Count();
             var totalPages = (int)Math.Ceiling(totalMeetings / (double)pageSize);
 
@@ -58,6 +83,8 @@ namespace ApiLayer.Controllers
                 Meetings = pagedMeetings
             });
         }
+
+
 
 
         // GET: api/meetings/{id}
@@ -131,7 +158,6 @@ namespace ApiLayer.Controllers
         {
             if (editMeetingDto == null)
             {
-                _logger.LogError("Güncelleme bilgileri eksik.");
                 return BadRequest("Güncelleme bilgileri eksik.");
             }
 
