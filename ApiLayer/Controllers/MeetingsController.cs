@@ -40,11 +40,27 @@ namespace ApiLayer.Controllers
         // GET: api/meetings
         [HttpGet]
         [SwaggerOperation(Summary = "Tüm toplantıları getir")]
-        public IActionResult GetMeetings()
+        public IActionResult GetMeetings(int page = 1, int pageSize = 10)
         {
             var meetings = _meetingService.GetAllMeetings();
-            return Ok(meetings);
+
+            // Toplantıları sayfalara böl
+            var pagedMeetings = meetings.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+            // Sayfalama bilgilerini ekle
+            var totalMeetings = meetings.Count();
+            var totalPages = (int)Math.Ceiling(totalMeetings / (double)pageSize);
+
+            return Ok(new
+            {
+                TotalMeetings = totalMeetings,
+                TotalPages = totalPages,
+                CurrentPage = page,
+                PageSize = pageSize,
+                Meetings = pagedMeetings
+            });
         }
+
 
         // GET: api/meetings/{id}
         [HttpGet("{id}")]
@@ -217,7 +233,7 @@ namespace ApiLayer.Controllers
         }
 
 
-       
+
 
 
 

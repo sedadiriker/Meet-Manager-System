@@ -1,14 +1,18 @@
-async function fetchMeetings() {
-    const user = JSON.parse(localStorage.getItem('user')); 
+let currentPage = 1;
+const pageSize = 10;
+
+async function fetchMeetings(page = 1) {
+    currentPage = page;  // Mevcut sayfayı güncelle
+    const user = JSON.parse(localStorage.getItem('user'));
     if (!user) {
         console.error('Kullanıcı kimliği bulunamadı.');
         return;
     }
     try {
-        const response = await fetch('http://localhost:5064/api/Meetings', {
+        const response = await fetch(`http://localhost:5064/api/Meetings?page=${page}&pageSize=${pageSize}`, {
             method: 'GET',
             headers: {
-                'Authorization': `Bearer ${localStorage.getItem('token')}`, 
+                'Authorization': `Bearer ${localStorage.getItem('token')}`,
                 'Content-Type': 'application/json'
             }
         });
@@ -17,16 +21,33 @@ async function fetchMeetings() {
             throw new Error('Toplantılar alınamadı.');
         }
 
-        const meetings = await response.json();
-        const userMeetings = meetings.filter(meeting => meeting.userId === user.id);
-        console.log(userMeetings);
+        const data = await response.json();
+
+        const userMeetings = data.meetings?.filter(meeting => meeting.userId === user.id);
         renderMeetings(userMeetings, user.id);
+        renderPagination(data.totalPages, data.currentPage);
     } catch (error) {
         console.error('Hata:', error);
     }
 }
 
-let selectedMeeting;
+function renderPagination(totalPages, currentPage) {
+    const paginationContainer = document.getElementById('paginationContainer');
+    paginationContainer.innerHTML = '';
+
+    for (let page = 1; page <= totalPages; page++) {
+        const pageItem = document.createElement('button');
+        pageItem.classList.add('btn', 'btn-primary', 'm-1');
+        pageItem.textContent = page;
+        pageItem.disabled = (page === currentPage);
+
+        pageItem.addEventListener('click', () => {
+            fetchMeetings(page);
+        });
+
+        paginationContainer.appendChild(pageItem);
+    }
+}
 
 function renderMeetings(meetings, currentUserId) {
     const meetingsBody = document.getElementById('meetingsBody2');
@@ -133,14 +154,11 @@ function renderMeetings(meetings, currentUserId) {
             raporButton.style.fontSize = "0.5rem";
             raporButton.setAttribute("data-id", meeting.id);
             raporButton.setAttribute("data-tooltip", "Rapor Oluştur");
-            raporButton.onclick = () => createRaport(meeting);
+            raporButton.onclick = () => createMeetingReport(meeting.id);
             actionsCell.appendChild(raporButton);
-
-            
         }
 
         row.appendChild(actionsCell);
-
         meetingsBody.appendChild(row);
     });
 
@@ -170,90 +188,50 @@ async function sendEmailNotification() {
         return;
     }
 
+    const sendEmailButton = document.getElementById('sendEmailButton');
     sendEmailButton.disabled = true;
     sendEmailButton.textContent = 'Gönderiliyor...';
 
+    const emailSubject = document.getElementById('emailSubject').value;
+    const emailBody = document.getElementById('emailBody').value;
+
     try {
-        const response = await fetch(`http://localhost:5064/api/Meetings/${selectedMeeting.id}/send-email`, {
+        const response = await fetch('http://localhost:5064/api/Meetings/SendEmailNotification', {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                toEmails: recipients,
-                subject: `Toplantı Bilgilendirmesi: ${selectedMeeting.name}`,
-                body: `
-                    <ul>
-                        <li><strong>Toplantı Adı:</strong> ${selectedMeeting.name}</li>
-                        <li><strong>Başlangıç Tarihi:</strong> ${formatDate(selectedMeeting.startDate)}</li>
-                        <li><strong>Bitiş Tarihi:</strong> ${formatDate(selectedMeeting.endDate)}</li>
-                        <li><strong>Açıklama:</strong> ${selectedMeeting.description}</li>
-                    </ul>
-                `,
-                isHtml: true
+                meetingId: selectedMeeting.id,
+                recipients: recipients,
+                subject: emailSubject,
+                body: emailBody
             })
         });
 
-        if (response.ok) {
-            toastr["success"]('Toplantı bilgilendirme e-postası başarıyla gönderildi.');
-        } else {
+        if (!response.ok) {
             throw new Error('E-posta gönderilemedi.');
         }
+
+        alert('E-posta başarıyla gönderildi.');
+        closeEmailModal();
     } catch (error) {
-        console.error('E-posta gönderme hatası:', error);
+        console.error('Hata:', error);
+        alert('E-posta gönderilirken bir hata oluştu.');
     } finally {
         sendEmailButton.disabled = false;
-        sendEmailButton.textContent = 'E-posta Gönder';
-        $('#emailModal').modal('hide'); 
-        document.getElementById('emailRecipients').value = ''; 
+        sendEmailButton.textContent = 'Gönder';
     }
 }
 
-document.getElementById('sendEmailButton').addEventListener('click', sendEmailNotification);
-
-
-function editMeeting(meetingId) {
-    console.log('Düzenle: ', meetingId);
+function formatDate(date) {
+    const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+    return new Date(date).toLocaleDateString('tr-TR', options);
 }
-
-function deleteMeeting(meetingId) {
-    console.log('Sil: ', meetingId);
-}
-async function createMeetingReport(meetingId) {
-    try {
-        const response = await fetch('http://localhost:5064/api/MeetingReports/generate', {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem('token')}`,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ meetingId })  
-        });
-
-        if (response.ok) {
-            const { reportUrl } = await response.json();
-            renderReports(meetingId, reportUrl);
-        } else {
-            throw new Error('Rapor oluşturulamadı.');
-        }
-    } catch (error) {
-        console.error('Rapor oluşturma hatası:', error);
-    }
-}
-
-
 
 function truncateDescription(description) {
-    return description.length > 100 ? description.substring(0, 100) + "..." : description;
+    return description.length > 100 ? description.substring(0, 100) + '...' : description;
 }
 
-function formatDate(dateString) {
-    const options = { year: 'numeric', month: 'long', day: 'numeric' };
-    return new Date(dateString).toLocaleDateString(undefined, options);
-}
-
-document.addEventListener('DOMContentLoaded', fetchMeetings);
-
-
-
+fetchMeetings();
