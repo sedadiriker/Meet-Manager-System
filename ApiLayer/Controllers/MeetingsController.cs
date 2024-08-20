@@ -44,10 +44,8 @@ namespace ApiLayer.Controllers
         {
             var meetings = _meetingService.GetAllMeetings();
 
-            // Toplantıları sayfalara böl
             var pagedMeetings = meetings.Skip((page - 1) * pageSize).Take(pageSize).ToList();
 
-            // Sayfalama bilgilerini ekle
             var totalMeetings = meetings.Count();
             var totalPages = (int)Math.Ceiling(totalMeetings / (double)pageSize);
 
