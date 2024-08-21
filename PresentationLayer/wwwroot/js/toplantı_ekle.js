@@ -55,7 +55,7 @@ form.addEventListener("submit", (e) => {
     .then((response) => {
       console.log("Yanıt:", response);
       setTimeout(() => {
-        window.location.href = "/toplantı_listesi";
+        window.location.href = "/toplantılarım";
       }, 2000);
   
       toastr["success"]("Toplantı Eklendi!");

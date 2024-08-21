@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "UNv0usoALRr3jFwDTjZXTz+H+Qj2DwtHhCPyUZRIits=",
+  "Hash": "NNxi5e9wOd4Wrwdzjo8GMQ/0zkWPk6WZgNw+GOa4VII=",
   "Source": "ApiLayer",
   "BasePath": "_content/ApiLayer",
   "Mode": "Default",
@@ -34,6 +34,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/uploads/450556759_10228750617423056_8147364330573238333_n.jpg"
+    },
+    {
+      "Identity": "/Users/sedadiriker/Desktop/MeetManagerSystem/ApiLayer/wwwroot/uploads/4f821dc1-2db1-4f81-bca8-071f2d024467.png",
+      "SourceId": "ApiLayer",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/sedadiriker/Desktop/MeetManagerSystem/ApiLayer/wwwroot/",
+      "BasePath": "_content/ApiLayer",
+      "RelativePath": "uploads/4f821dc1-2db1-4f81-bca8-071f2d024467.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/uploads/4f821dc1-2db1-4f81-bca8-071f2d024467.png"
     },
     {
       "Identity": "/Users/sedadiriker/Desktop/MeetManagerSystem/ApiLayer/wwwroot/uploads/Alpata Proje (1).pdf",

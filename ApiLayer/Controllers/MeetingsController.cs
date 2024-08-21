@@ -38,23 +38,18 @@ namespace ApiLayer.Controllers
         }
 
         [HttpGet]
-        [SwaggerOperation(Summary = "Tüm toplantıları getir")]
-        public IActionResult GetAllMeetings(int page = 1, int pageSize = 10)
-        {
-            var meetings = _meetingService.GetAllMeetings();
+[SwaggerOperation(Summary = "Tüm toplantıları getir")]
+public IActionResult GetAllMeetings()
+{
+    var meetings = _meetingService.GetAllMeetings().ToList(); // Tüm toplantıları al
 
-            var totalMeetings = _meetingService.GetAllMeetings().Count();
-            var totalPages = (int)Math.Ceiling(totalMeetings / (double)pageSize);
+    return Ok(new
+    {
+        TotalMeetings = meetings.Count,
+        Meetings = meetings
+    });
+}
 
-            return Ok(new
-            {
-                TotalMeetings = totalMeetings,
-                TotalPages = totalPages,
-                CurrentPage = page,
-                PageSize = pageSize,
-                Meetings = meetings
-            });
-        }
 
         [HttpGet("upcoming")]
         [SwaggerOperation(Summary = "Gelecek toplantıları getir")]

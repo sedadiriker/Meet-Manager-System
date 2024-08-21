@@ -157,14 +157,7 @@ function renderMeetings(meetings, currentUserId) {
             emailButton.onclick = () => openEmailModal(meeting);
             actionsCell.appendChild(emailButton);
 
-            var raporButton = document.createElement("button");
-            raporButton.innerHTML = '<i class="fas fa-file-alt"></i>';
-            raporButton.className = "btn btn-outline-info btn-sm m-1 email tooltip-button";
-            raporButton.style.fontSize = "0.5rem";
-            raporButton.setAttribute("data-id", meeting.id);
-            raporButton.setAttribute("data-tooltip", "Rapor Oluştur");
-            raporButton.onclick = () => createMeetingReport(meeting.id);
-            actionsCell.appendChild(raporButton);
+    
         }
 
         row.appendChild(actionsCell);
