@@ -124,7 +124,12 @@ function renderMeetings(meetings, currentUserId) {
         actionsCell.style.display = "flex";
         actionsCell.style.justifyContent = "center";
 
-        if (meeting.userId === currentUserId) {
+        if (new Date(meeting.startDate) < new Date()) {
+            var ongoingText = document.createElement("span");
+            ongoingText.textContent = "Devam Ediyor";
+            ongoingText.className = "badge bg-warning text-dark m-1";
+            actionsCell.appendChild(ongoingText);
+        } else if (meeting.userId === currentUserId) {
             var deleteButton = document.createElement("button");
             deleteButton.innerHTML = '<i class="fas fa-trash delete"></i>';
             deleteButton.className = "btn btn-outline-danger btn-sm m-1 delete tooltip-button";
