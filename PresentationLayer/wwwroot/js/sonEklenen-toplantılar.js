@@ -67,53 +67,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 descriptionCell.appendChild(fullDescription);
                 row.appendChild(descriptionCell);
 
-                var documentCell = document.createElement("td");
-                documentCell.className = "document";
-
-                if (meeting.documentPath) {
-                    var link = document.createElement("a");
-                    link.href = meeting.documentPath;
-                    link.textContent = "İndir";
-                    link.className = "document-link";
-                    link.setAttribute("data-user-id", meeting.userId);
-                    if (meeting.userId !== currentUserId) {
-                        link.style.pointerEvents = "none";
-                        link.style.color = "#ccc";
-                    }
-                    documentCell.appendChild(link);
-                } else {
-                    documentCell.textContent = "-";
-                }
-
-                row.appendChild(documentCell);
-
-                var actionsCell = document.createElement("td");
-                actionsCell.className = "actions";
-                actionsCell.style.display = "flex";
-                actionsCell.style.justifyContent = "center";
-
-                if (meeting.userId === currentUserId) {
-                    var deleteButton = document.createElement("button");
-                    deleteButton.innerHTML = '<i class="fas fa-trash delete"></i>';
-                    deleteButton.className = "btn btn-outline-danger btn-sm m-1 delete tooltip-button";
-                    deleteButton.style.fontSize = "0.5rem";
-                    deleteButton.setAttribute("data-id", meeting.id);
-                    deleteButton.setAttribute("data-tooltip", "Sil");
-                    deleteButton.onclick = () => deleteMeeting(meeting.id);
-                    actionsCell.appendChild(deleteButton);
-
-                    var editButton = document.createElement("button");
-                    editButton.innerHTML = '<i class="fas fa-edit edit"></i>';
-                    editButton.className = "btn btn-outline-primary btn-sm edit m-1 tooltip-button";
-                    editButton.style.fontSize = "0.5rem";
-                    editButton.setAttribute("data-id", meeting.id);
-                    editButton.setAttribute("data-tooltip", "Düzenle");
-                    editButton.onclick = () => editMeeting(meeting.id);
-                    actionsCell.appendChild(editButton);
-                }
-
-                row.appendChild(actionsCell);
-
                 tbody.appendChild(row);
             });
 

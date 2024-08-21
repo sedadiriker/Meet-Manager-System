@@ -1,16 +1,17 @@
-// toplantılarım.js
-let currentPage = 1;
-const pageSize = 10;
+// gecmis-toplantılar.js
+let currentPagePast = 1;
+const pageSizePast = 10;
 
-async function fetchMeetings( page = 1) {
-    currentPage = page;  
+
+async function fetchPasthMeetings(type = 'past', page = 1) {
+    currentPagePast = page;  
     const user = JSON.parse(localStorage.getItem('user'));
     if (!user) {
         console.error('Kullanıcı kimliği bulunamadı.');
         return;
     }
     try {
-        const response = await fetch(`http://localhost:5064/api/meetings/upcoming?page=${currentPage}&pageSize=${pageSize}`, {
+        const response = await fetch(`http://localhost:5064/api/meetings/past?page=${currentPagePast}&pageSize=${pageSizePast}`, {
 
             method: 'GET',
             headers: {
@@ -24,11 +25,12 @@ async function fetchMeetings( page = 1) {
         }
 
         const data = await response.json();
-        console.log(data)
+        console.log("meet",data)
 
         const userMeetings = data.meetings?.filter(meeting => meeting.userId === user.id);
         userMeetings.sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
-        renderMeetings(userMeetings, user.id);
+
+        renderPastMeetings(userMeetings, user.id);
         renderPagination(data.totalPages, data.currentPage);
     } catch (error) {
         console.error('Hata:', error);
@@ -46,15 +48,15 @@ function renderPagination(totalPages, currentPage) {
         pageItem.disabled = (page === currentPage);
 
         pageItem.addEventListener('click', () => {
-            fetchMeetings(page);
+            fetchPasthMeetings(page);
         });
 
         paginationContainer.appendChild(pageItem);
     }
 }
 
-function renderMeetings(meetings, currentUserId) {
-    const meetingsBody = document.getElementById('meetingsBody2');
+function renderPastMeetings(meetings, currentUserId) {
+    const meetingsBody = document.getElementById('meetingsBody3');
     meetingsBody.innerHTML = '';
 
     meetings.forEach((meeting) => {
@@ -125,32 +127,6 @@ function renderMeetings(meetings, currentUserId) {
         actionsCell.style.justifyContent = "center";
 
         if (meeting.userId === currentUserId) {
-            var deleteButton = document.createElement("button");
-            deleteButton.innerHTML = '<i class="fas fa-trash delete"></i>';
-            deleteButton.className = "btn btn-outline-danger btn-sm m-1 delete tooltip-button";
-            deleteButton.style.fontSize = "0.5rem";
-            deleteButton.setAttribute("data-id", meeting.id);
-            deleteButton.setAttribute("data-tooltip", "Sil");
-            deleteButton.onclick = () => deleteMeeting(meeting.id);
-            actionsCell.appendChild(deleteButton);
-
-            var editButton = document.createElement("button");
-            editButton.innerHTML = '<i class="fas fa-edit edit"></i>';
-            editButton.className = "btn btn-outline-primary btn-sm edit m-1 tooltip-button";
-            editButton.style.fontSize = "0.5rem";
-            editButton.setAttribute("data-id", meeting.id);
-            editButton.setAttribute("data-tooltip", "Düzenle");
-            editButton.onclick = () => editMeeting(meeting.id);
-            actionsCell.appendChild(editButton);
-
-            var emailButton = document.createElement("button");
-            emailButton.innerHTML = '<i class="fas fa-envelope email"></i>';
-            emailButton.className = "btn btn-outline-info btn-sm m-1 email tooltip-button";
-            emailButton.style.fontSize = "0.5rem";
-            emailButton.setAttribute("data-id", meeting.id);
-            emailButton.setAttribute("data-tooltip", "Email Gönder");
-            emailButton.onclick = () => openEmailModal(meeting);
-            actionsCell.appendChild(emailButton);
 
             var raporButton = document.createElement("button");
             raporButton.innerHTML = '<i class="fas fa-file-alt"></i>';
@@ -176,58 +152,6 @@ function renderMeetings(meetings, currentUserId) {
     });
 }
 
-function openEmailModal(meeting) {
-    selectedMeeting = meeting
-    $('#emailModal').modal('show'); 
-}
-
-function closeEmailModal() {
-    $('#emailModal').modal('hide'); 
-}
-
-async function sendEmailNotification() {
-    const recipients = document.getElementById('emailRecipients').value.split(',').map(email => email.trim());
-    if (recipients.length === 0) {
-        alert('Lütfen en az bir e-posta adresi giriniz.');
-        return;
-    }
-
-    const sendEmailButton = document.getElementById('sendEmailButton');
-    sendEmailButton.disabled = true;
-    sendEmailButton.textContent = 'Gönderiliyor...';
-
-    const emailSubject = document.getElementById('emailSubject').value;
-    const emailBody = document.getElementById('emailBody').value;
-
-    try {
-        const response = await fetch('http://localhost:5064/api/Meetings/SendEmailNotification', {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem('token')}`,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                meetingId: selectedMeeting.id,
-                recipients: recipients,
-                subject: emailSubject,
-                body: emailBody
-            })
-        });
-
-        if (!response.ok) {
-            throw new Error('E-posta gönderilemedi.');
-        }
-
-        alert('E-posta başarıyla gönderildi.');
-        closeEmailModal();
-    } catch (error) {
-        console.error('Hata:', error);
-        alert('E-posta gönderilirken bir hata oluştu.');
-    } finally {
-        sendEmailButton.disabled = false;
-        sendEmailButton.textContent = 'Gönder';
-    }
-}
 
 function formatDate(date) {
     const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
@@ -238,4 +162,4 @@ function truncateDescription(description) {
     return description.length > 100 ? description.substring(0, 100) + '...' : description;
 }
 
-fetchMeetings();
+fetchPasthMeetings();

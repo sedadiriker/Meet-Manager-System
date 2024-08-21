@@ -15,12 +15,6 @@ namespace PresentationLayer.Controllers
         }
 
 
-        [Route("/toplantı_listesi")]
-        public IActionResult Toplantı_Listesi()
-        {
-            return View();
-        }
-
         [Route("/toplantı_ekle")]
         public IActionResult Toplantı_Ekle()
         {

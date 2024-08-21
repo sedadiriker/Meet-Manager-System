@@ -37,41 +37,13 @@ namespace ApiLayer.Controllers
             _reportService = reportService;
         }
 
-        [HttpGet("filtered")]
-        [SwaggerOperation(Summary = "Geçmiş veya gelecek toplantıları getir")]
-        public IActionResult GetFilteredMeetings(string type, int page = 1, int pageSize = 10)
+        [HttpGet]
+        [SwaggerOperation(Summary = "Tüm toplantıları getir")]
+        public IActionResult GetAllMeetings(int page = 1, int pageSize = 10)
         {
-            var now = DateTime.UtcNow;
-            IQueryable<Meeting> meetings;
+            var meetings = _meetingService.GetAllMeetings();
 
-            if (string.IsNullOrEmpty(type))
-            {
-                return BadRequest("Lütfen 'type' parametresini belirtin ('past' veya 'upcoming').");
-            }
-
-            if (type.ToLower() == "upcoming")
-            {
-                meetings = _meetingService.GetAllMeetings()
-                    .Where(m => m.StartDate > now)
-                    .OrderBy(m => m.StartDate)
-                    .ToList()
-                    .AsQueryable();
-            }
-            else if (type.ToLower() == "past")
-            {
-                meetings = _meetingService.GetAllMeetings()
-                    .Where(m => m.EndDate < now)
-                    .OrderByDescending(m => m.StartDate)
-                    .ToList()
-                    .AsQueryable();
-            }
-            else
-            {
-                return BadRequest("Geçersiz 'type' parametresi. Lütfen 'past' veya 'upcoming' kullanın.");
-            }
-
-            var pagedMeetings = meetings.Skip((page - 1) * pageSize).Take(pageSize).ToList();
-            var totalMeetings = meetings.Count();
+            var totalMeetings = _meetingService.GetAllMeetings().Count();
             var totalPages = (int)Math.Ceiling(totalMeetings / (double)pageSize);
 
             return Ok(new
@@ -80,11 +52,61 @@ namespace ApiLayer.Controllers
                 TotalPages = totalPages,
                 CurrentPage = page,
                 PageSize = pageSize,
-                Meetings = pagedMeetings
+                Meetings = meetings
+            });
+        }
+
+        [HttpGet("upcoming")]
+        [SwaggerOperation(Summary = "Gelecek toplantıları getir")]
+        public IActionResult GetUpcomingMeetings(int page = 1, int pageSize = 10)
+        {
+            var now = DateTime.UtcNow;
+            var meetings = _meetingService.GetAllMeetings()
+                .Where(m => m.EndDate >= now)
+                .OrderBy(m => m.StartDate)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+
+            var totalMeetings = _meetingService.GetAllMeetings().Count(m => m.EndDate >= now);
+            var totalPages = (int)Math.Ceiling(totalMeetings / (double)pageSize);
+
+            return Ok(new
+            {
+                TotalMeetings = totalMeetings,
+                TotalPages = totalPages,
+                CurrentPage = page,
+                PageSize = pageSize,
+                Meetings = meetings
             });
         }
 
 
+
+        [HttpGet("past")]
+        [SwaggerOperation(Summary = "Geçmiş toplantıları getir")]
+        public IActionResult GetPastMeetings(int page = 1, int pageSize = 10)
+        {
+            var now = DateTime.UtcNow;
+            var meetings = _meetingService.GetAllMeetings()
+                .Where(m => m.EndDate < now)
+                .OrderByDescending(m => m.EndDate)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+
+            var totalMeetings = _meetingService.GetAllMeetings().Count(m => m.EndDate < now);
+            var totalPages = (int)Math.Ceiling(totalMeetings / (double)pageSize);
+
+            return Ok(new
+            {
+                TotalMeetings = totalMeetings,
+                TotalPages = totalPages,
+                CurrentPage = page,
+                PageSize = pageSize,
+                Meetings = meetings
+            });
+        }
 
 
         // GET: api/meetings/{id}
